@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title> Royal Mabati</title>
+<title>Msingi Hardware & Mabati</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
   body { font-family: 'Inter', sans-serif; margin:0; }
@@ -16,18 +13,18 @@
   input[type=number].no-spinner::-webkit-outer-spin-button,
   input[type=number].no-spinner::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   input[type=number].no-spinner { -moz-appearance: textfield; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ridge-strip { display:block; }
 </style>
 </head>
 <body>
 <div id="root"></div>
 
-<script type="text/babel" data-presets="react">
-const { useState, useMemo, useEffect } = React;
-
+<script>
 /* ============================================================
    BRAND / BUSINESS CONFIG — change these to customize
    ============================================================ */
-const BUSINESS_NAME = "Royal Mabati Hardware";
+const BUSINESS_NAME = "Msingi Hardware & Mabati";
 const BUSINESS_TAGLINE = "Foundation-grade materials, straight to site.";
 const WHATSAPP_NUMBER = "254700000000"; // digits only, country code, no +
 
@@ -129,321 +126,484 @@ const PRODUCT_IMAGES = {
    HELPERS
    ============================================================ */
 const kes = (n) => "KSh " + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-/* Minimal inline icon set — no external icon library needed */
-const Icon = ({ path, size = 18, className = "", strokeWidth = 2 }) => (
-  <svg viewBox="0 0 24 24" width={size} height={size} className={className} fill="none"
-       stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
-    {path}
-  </svg>
-);
-const SearchIcon = (p) => <Icon {...p} path={<><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>} />;
-const XIcon = (p) => <Icon {...p} path={<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>} />;
-const PlusIcon = (p) => <Icon {...p} path={<><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>} />;
-const MinusIcon = (p) => <Icon {...p} path={<line x1="5" y1="12" x2="19" y2="12"/>} />;
-const CartIcon = (p) => <Icon {...p} path={<><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></>} />;
-const ChatIcon = (p) => <Icon {...p} path={<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>} />;
-const TrashIcon = (p) => <Icon {...p} path={<><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></>} />;
-const CheckIcon = (p) => <Icon {...p} path={<polyline points="20 6 9 17 4 12"/>} />;
-const TruckIcon = (p) => <Icon {...p} path={<><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></>} />;
-const ShieldIcon = (p) => <Icon {...p} path={<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>} />;
+/* ============================================================
+   INLINE ICON SET (SVG strings) — no external icon library
+   ============================================================ */
+function icon(pathInner, size = 18, strokeWidth = 2, cls = "") {
+  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" class="${cls}" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${pathInner}</svg>`;
+}
+const ICONS = {
+  search: (size, cls) => icon(`<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`, size, 2, cls),
+  x: (size, cls) => icon(`<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`, size, 2, cls),
+  plus: (size, cls) => icon(`<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`, size, 2, cls),
+  minus: (size, cls) => icon(`<line x1="5" y1="12" x2="19" y2="12"/>`, size, 2, cls),
+  cart: (size, cls) => icon(`<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>`, size, 2, cls),
+  chat: (size, cls) => icon(`<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>`, size, 2, cls),
+  trash: (size, cls) => icon(`<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>`, size, 2, cls),
+  check: (size, cls) => icon(`<polyline points="20 6 9 17 4 12"/>`, size, 2, cls),
+  truck: (size, cls) => icon(`<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`, size, 2, cls),
+  shield: (size, cls) => icon(`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`, size, 2, cls),
+};
 
-/* Ridge texture strip — the signature visual motif (corrugated profile) */
-function RidgeStrip({ className = "", height = 10 }) {
-  return (
-    <div className={className} style={{ height, backgroundImage:
-      "repeating-linear-gradient(90deg, rgba(0,0,0,0.28) 0px, rgba(0,0,0,0.28) 2px, rgba(255,255,255,0.10) 2px, rgba(255,255,255,0.10) 5px, rgba(0,0,0,0.05) 5px, rgba(0,0,0,0.05) 9px)" }} />
-  );
+function ridgeStrip(height = 10, cls = "") {
+  return `<div class="${cls}" style="height:${height}px;background-image:repeating-linear-gradient(90deg, rgba(0,0,0,0.28) 0px, rgba(0,0,0,0.28) 2px, rgba(255,255,255,0.10) 2px, rgba(255,255,255,0.10) 5px, rgba(0,0,0,0.05) 5px, rgba(0,0,0,0.05) 9px)"></div>`;
 }
 
-function AnnouncementBar() {
-  return (
-    <div className="bg-[#161a1d] text-[#e8590c] text-[12px] sm:text-[13px] tracking-wide font-semibold">
-      <div className="max-w-7xl mx-auto px-3 py-2 flex items-center justify-center gap-2 text-center">
-        <TruckIcon size={14} className="shrink-0" />
-        <span className="uppercase font-['Oswald'] tracking-[0.06em]">Fast countrywide delivery &nbsp;•&nbsp; Quality-certified hardware</span>
-        <ShieldIcon size={14} className="shrink-0" />
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  search: "",
+  activeCategory: "all",
+  cartOpen: false,
+  cart: [], // { cartId, productId, name, unit, gauge, color, qty, unitPrice }
+  // per-product-card transient UI state, keyed by product id
+  cardState: {},
+};
+
+PRODUCTS.forEach((p) => {
+  const hasGauges = !!p.gauges;
+  state.cardState[p.id] = { gaugeIdx: 0, colorIdx: 0, qty: hasGauges ? 10 : 1, justAdded: false };
+});
+
+/* ============================================================
+   CART LOGIC
+   ============================================================ */
+function addToCart(item) {
+  const existingIdx = state.cart.findIndex(
+    (it) => it.productId === item.productId && it.gauge === item.gauge && it.color === item.color
+  );
+  if (existingIdx >= 0) {
+    state.cart[existingIdx] = { ...state.cart[existingIdx], qty: state.cart[existingIdx].qty + item.qty };
+  } else {
+    state.cart.push({ ...item, cartId: `${item.productId}-${item.gauge}-${item.color}-${Date.now()}` });
+  }
+  state.cartOpen = true;
+}
+function updateQty(cartId, qty) {
+  const it = state.cart.find((i) => i.cartId === cartId);
+  if (it) it.qty = qty;
+}
+function removeItem(cartId) {
+  state.cart = state.cart.filter((i) => i.cartId !== cartId);
+}
+function cartTotal() {
+  return state.cart.reduce((sum, it) => sum + it.qty * it.unitPrice, 0);
+}
+function cartCount() {
+  return state.cart.reduce((sum, it) => sum + it.qty, 0);
+}
+function buildWhatsAppMessage() {
+  const lines = state.cart.map((it, i) => {
+    const specs = [it.gauge, it.color].filter(Boolean).join(", ");
+    return `${i + 1}. ${it.name}${specs ? " (" + specs + ")" : ""} — ${it.qty} ${it.unit}${it.qty > 1 ? "s" : ""} @ ${kes(it.unitPrice)} = ${kes(it.qty * it.unitPrice)}`;
+  });
+  return `Hello ${BUSINESS_NAME}, I'd like to order:\n\n` + lines.join("\n") + `\n\nTOTAL: ${kes(cartTotal())}\n\nPlease confirm availability and delivery to my location.`;
+}
+function handleCheckout() {
+  const text = encodeURIComponent(buildWhatsAppMessage());
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
+}
+
+/* ============================================================
+   RENDER: pieces
+   ============================================================ */
+function renderAnnouncementBar() {
+  return `
+    <div class="bg-[#161a1d] text-[#e8590c] text-[12px] sm:text-[13px] tracking-wide font-semibold">
+      <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-center gap-2 text-center">
+        ${ICONS.truck(14, "shrink-0")}
+        <span class="uppercase font-['Oswald'] tracking-[0.06em]">Fast countrywide delivery &nbsp;•&nbsp; Quality-certified hardware</span>
+        ${ICONS.shield(14, "shrink-0")}
       </div>
-    </div>
-  );
+    </div>`;
 }
 
-function Header({ search, setSearch, cartCount, onOpenCart }) {
-  return (
-    <header className="sticky top-0 z-30 bg-[#1c1f22] text-[#f2efe9] shadow-lg shadow-black/20">
-      <RidgeStrip height={5} />
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
-        <div className="flex flex-col leading-tight shrink-0">
-          <span className="font-['Oswald'] font-bold text-xl sm:text-2xl tracking-tight uppercase">{BUSINESS_NAME}</span>
-          <span className="text-[11px] sm:text-xs text-[#9aa4ac] font-medium">{BUSINESS_TAGLINE}</span>
+function renderHeader() {
+  const count = cartCount();
+  const badge = count > 0
+    ? `<span class="absolute -top-2 -right-2 bg-[#1c1f22] text-[#e8590c] border-2 border-[#e8590c] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">${count}</span>`
+    : "";
+  const clearBtnDesktop = state.search
+    ? `<button id="clear-search-desktop" aria-label="Clear search">${ICONS.x(15, "text-[#9aa4ac] hover:text-white")}</button>` : "";
+  const clearBtnMobile = state.search
+    ? `<button id="clear-search-mobile" aria-label="Clear search">${ICONS.x(15, "text-[#9aa4ac]")}</button>` : "";
+
+  return `
+    <header class="sticky top-0 z-30 bg-[#1c1f22] text-[#f2efe9] shadow-lg shadow-black/20">
+      ${ridgeStrip(5)}
+      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
+        <div class="flex flex-col leading-tight shrink-0">
+          <span class="font-['Oswald'] font-bold text-xl sm:text-2xl tracking-tight uppercase">${escapeHtml(BUSINESS_NAME)}</span>
+          <span class="text-[11px] sm:text-xs text-[#9aa4ac] font-medium">${escapeHtml(BUSINESS_TAGLINE)}</span>
         </div>
-        <div className="flex-1 hidden sm:flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5 focus-within:border-[#e8590c]/60 transition-colors">
-          <SearchIcon size={17} className="text-[#9aa4ac] shrink-0" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search mabati, cement, bars..."
-                 className="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full" />
-          {search && <button onClick={() => setSearch("")} aria-label="Clear search"><XIcon size={15} className="text-[#9aa4ac] hover:text-white" /></button>}
+        <div class="flex-1 hidden sm:flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5 focus-within:border-[#e8590c]/60 transition-colors">
+          ${ICONS.search(17, "text-[#9aa4ac] shrink-0")}
+          <input id="search-desktop" value="${escapeHtml(state.search)}" placeholder="Search mabati, cement, bars..."
+                 class="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full" />
+          ${clearBtnDesktop}
         </div>
-        <button onClick={onOpenCart} className="relative flex items-center gap-2 bg-[#e8590c] hover:bg-[#d14e08] active:scale-95 transition-all rounded-full px-4 py-2.5 font-semibold text-sm shrink-0">
-          <CartIcon size={18} />
-          <span className="hidden sm:inline">Cart</span>
-          {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-[#1c1f22] text-[#e8590c] border-2 border-[#e8590c] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{cartCount}</span>}
+        <button id="open-cart-btn" class="relative flex items-center gap-2 bg-[#e8590c] hover:bg-[#d14e08] active:scale-95 transition-all rounded-full px-4 py-2.5 font-semibold text-sm shrink-0">
+          ${ICONS.cart(18)}
+          <span class="hidden sm:inline">Cart</span>
+          ${badge}
         </button>
       </div>
-      <div className="sm:hidden px-4 pb-3">
-        <div className="flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5">
-          <SearchIcon size={16} className="text-[#9aa4ac] shrink-0" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search mabati, cement, bars..."
-                 className="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full text-[#f2efe9]" />
-          {search && <button onClick={() => setSearch("")} aria-label="Clear search"><XIcon size={15} className="text-[#9aa4ac]" /></button>}
+      <div class="sm:hidden px-4 pb-3">
+        <div class="flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5">
+          ${ICONS.search(16, "text-[#9aa4ac] shrink-0")}
+          <input id="search-mobile" value="${escapeHtml(state.search)}" placeholder="Search mabati, cement, bars..."
+                 class="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full text-[#f2efe9]" />
+          ${clearBtnMobile}
         </div>
       </div>
-    </header>
-  );
+    </header>`;
 }
 
-function FilterPills({ active, setActive }) {
+function renderFilterPills() {
   const all = [{ id: "all", label: "All Products" }, ...CATEGORIES];
-  return (
-    <div className="max-w-7xl mx-auto px-4 pt-5 pb-1">
-      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-        {all.map((c) => {
-          const isActive = active === c.id;
-          return (
-            <button key={c.id} onClick={() => setActive(c.id)}
-              className={"shrink-0 px-4 py-2 rounded-full text-sm font-semibold font-['Oswald'] tracking-wide uppercase transition-all border " +
-                (isActive ? "bg-[#1c1f22] text-white border-[#1c1f22]" : "bg-white text-[#4a5560] border-[#d8d3c8] hover:border-[#1c1f22]")}>
-              {c.label}
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
+  const pills = all.map((c) => {
+    const isActive = state.activeCategory === c.id;
+    const cls = isActive
+      ? "bg-[#1c1f22] text-white border-[#1c1f22]"
+      : "bg-white text-[#4a5560] border-[#d8d3c8] hover:border-[#1c1f22]";
+    return `<button data-cat="${c.id}" class="filter-pill shrink-0 px-4 py-2 rounded-full text-sm font-semibold font-['Oswald'] tracking-wide uppercase transition-all border ${cls}">${escapeHtml(c.label)}</button>`;
+  }).join("");
+  return `
+    <div class="max-w-7xl mx-auto px-4 pt-5 pb-1">
+      <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">${pills}</div>
+    </div>`;
 }
 
-function ProductCard({ product, onAdd }) {
+function renderProductCard(product) {
+  const cs = state.cardState[product.id];
   const hasGauges = !!product.gauges;
-  const [gaugeIdx, setGaugeIdx] = useState(0);
-  const [colorIdx, setColorIdx] = useState(0);
-  const [qty, setQty] = useState(hasGauges ? 10 : 1);
-  const [justAdded, setJustAdded] = useState(false);
-
-  const unitPrice = hasGauges ? product.gauges[gaugeIdx].price : product.price;
+  const unitPrice = hasGauges ? product.gauges[cs.gaugeIdx].price : product.price;
   const priceRange = hasGauges ? [product.gauges[0].price, product.gauges[product.gauges.length - 1].price] : null;
 
-  const handleAdd = () => {
-    onAdd({
-      productId: product.id, name: product.name, unit: product.unit,
-      gauge: hasGauges ? product.gauges[gaugeIdx].label : null,
-      color: hasGauges ? product.colors[colorIdx] : null,
-      qty: Math.max(1, qty), unitPrice,
-    });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 1200);
-  };
-
-  return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-[#e5e0d5] shadow-sm hover:shadow-md transition-shadow flex flex-col">
-      <div className="h-36 w-full overflow-hidden">
-        <img src={PRODUCT_IMAGES[product.icon]} alt={product.name} loading="lazy" className="w-full h-full object-cover" />
+  const gaugeColorBlock = hasGauges ? `
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <label class="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Gauge</label>
+        <select data-product="${product.id}" data-role="gauge" class="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
+          ${product.gauges.map((g, i) => `<option value="${i}" ${i === cs.gaugeIdx ? "selected" : ""}>${escapeHtml(g.label)}</option>`).join("")}
+        </select>
       </div>
-      <RidgeStrip height={6} />
-      <div className="p-4 flex flex-col gap-3 flex-1">
+      <div>
+        <label class="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Color</label>
+        <select data-product="${product.id}" data-role="color" class="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
+          ${product.colors.map((c, i) => `<option value="${i}" ${i === cs.colorIdx ? "selected" : ""}>${escapeHtml(c)}</option>`).join("")}
+        </select>
+      </div>
+    </div>` : "";
+
+  const rangeLine = priceRange ? `<div class="text-[11px] text-[#9aa4ac]">Range: ${kes(priceRange[0])} – ${kes(priceRange[1])}</div>` : "";
+
+  const addBtnCls = cs.justAdded
+    ? "bg-[#1c1f22] text-white"
+    : "bg-[#e8590c] hover:bg-[#d14e08] text-white active:scale-[0.98]";
+  const addBtnContent = cs.justAdded
+    ? `${ICONS.check(16)} Added to cart`
+    : `Add to Cart · ${kes(unitPrice * Math.max(1, cs.qty))}`;
+
+  return `
+    <div class="bg-white rounded-2xl overflow-hidden border border-[#e5e0d5] shadow-sm hover:shadow-md transition-shadow flex flex-col">
+      <div class="h-36 w-full overflow-hidden">
+        <img src="${PRODUCT_IMAGES[product.icon]}" alt="${escapeHtml(product.name)}" loading="lazy" class="w-full h-full object-cover" />
+      </div>
+      ${ridgeStrip(6)}
+      <div class="p-4 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="font-['Oswald'] font-semibold text-[15px] leading-snug text-[#1c1f22]">{product.name}</h3>
-          <p className="text-[12.5px] text-[#767f86] mt-0.5 line-clamp-2">{product.description}</p>
+          <h3 class="font-['Oswald'] font-semibold text-[15px] leading-snug text-[#1c1f22]">${escapeHtml(product.name)}</h3>
+          <p class="text-[12.5px] text-[#767f86] mt-0.5 line-clamp-2">${escapeHtml(product.description)}</p>
         </div>
 
-        {hasGauges && (
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Gauge</label>
-              <select value={gaugeIdx} onChange={(e) => setGaugeIdx(Number(e.target.value))}
-                className="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
-                {product.gauges.map((g, i) => <option key={g.label} value={i}>{g.label}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Color</label>
-              <select value={colorIdx} onChange={(e) => setColorIdx(Number(e.target.value))}
-                className="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
-                {product.colors.map((c, i) => <option key={c} value={i}>{c}</option>)}
-              </select>
-            </div>
-          </div>
-        )}
+        ${gaugeColorBlock}
 
-        <div className="flex items-end justify-between mt-auto pt-1">
+        <div class="flex items-end justify-between mt-auto pt-1">
           <div>
-            <div className="font-['Oswald'] font-bold text-lg text-[#1c1f22]">
-              {kes(unitPrice)}<span className="text-[12px] font-normal text-[#9aa4ac]"> /{product.unit}</span>
+            <div class="font-['Oswald'] font-bold text-lg text-[#1c1f22]">
+              ${kes(unitPrice)}<span class="text-[12px] font-normal text-[#9aa4ac]"> /${product.unit}</span>
             </div>
-            {priceRange && <div className="text-[11px] text-[#9aa4ac]">Range: {kes(priceRange[0])} – {kes(priceRange[1])}</div>}
+            ${rangeLine}
           </div>
-          <div className="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
-            <button onClick={() => setQty((q) => Math.max(1, q - (hasGauges ? 5 : 1)))} className="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Decrease quantity"><MinusIcon size={14} /></button>
-            <input type="number" min={1} value={qty} onChange={(e) => setQty(Math.max(1, Number(e.target.value) || 1))} className="w-12 text-center text-sm outline-none no-spinner" />
-            <button onClick={() => setQty((q) => q + (hasGauges ? 5 : 1))} className="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Increase quantity"><PlusIcon size={14} /></button>
+          <div class="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
+            <button data-product="${product.id}" data-role="qty-minus" class="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Decrease quantity">${ICONS.minus(14)}</button>
+            <input type="number" min="1" value="${cs.qty}" data-product="${product.id}" data-role="qty-input" class="w-12 text-center text-sm outline-none no-spinner" />
+            <button data-product="${product.id}" data-role="qty-plus" class="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Increase quantity">${ICONS.plus(14)}</button>
           </div>
         </div>
 
-        <button onClick={handleAdd}
-          className={"w-full mt-1 rounded-xl py-2.5 font-['Oswald'] font-semibold text-sm uppercase tracking-wide transition-all flex items-center justify-center gap-2 " +
-            (justAdded ? "bg-[#1c1f22] text-white" : "bg-[#e8590c] hover:bg-[#d14e08] text-white active:scale-[0.98]")}>
-          {justAdded ? <><CheckIcon size={16} /> Added to cart</> : <>Add to Cart · {kes(unitPrice * Math.max(1, qty))}</>}
+        <button data-product="${product.id}" data-role="add-to-cart"
+          class="w-full mt-1 rounded-xl py-2.5 font-['Oswald'] font-semibold text-sm uppercase tracking-wide transition-all flex items-center justify-center gap-2 ${addBtnCls}">
+          ${addBtnContent}
         </button>
       </div>
-    </div>
-  );
+    </div>`;
 }
 
-function CartDrawer({ open, onClose, items, updateQty, removeItem, total }) {
-  const buildWhatsAppMessage = () => {
-    const lines = items.map((it, i) => {
-      const specs = [it.gauge, it.color].filter(Boolean).join(", ");
-      return `${i + 1}. ${it.name}${specs ? " (" + specs + ")" : ""} — ${it.qty} ${it.unit}${it.qty > 1 ? "s" : ""} @ ${kes(it.unitPrice)} = ${kes(it.qty * it.unitPrice)}`;
-    });
-    return `Hello ${BUSINESS_NAME}, I'd like to order:\n\n` + lines.join("\n") + `\n\nTOTAL: ${kes(total)}\n\nPlease confirm availability and delivery to my location.`;
-  };
-  const handleCheckout = () => {
-    const text = encodeURIComponent(buildWhatsAppMessage());
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
-  };
-
-  return (
-    <>
-      <div onClick={onClose} className={"fixed inset-0 bg-black/50 z-40 transition-opacity " + (open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none")} />
-      <div className={"fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#faf9f6] z-50 shadow-2xl flex flex-col transition-transform duration-300 " + (open ? "translate-x-0" : "translate-x-full")}>
-        <div className="bg-[#1c1f22] text-white px-5 py-4 flex items-center justify-between">
-          <h2 className="font-['Oswald'] font-bold uppercase tracking-wide flex items-center gap-2"><CartIcon size={19} /> Your Cart</h2>
-          <button onClick={onClose} aria-label="Close cart"><XIcon size={20} /></button>
-        </div>
-        <RidgeStrip height={5} />
-        <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
-          {items.length === 0 && (
-            <div className="text-center text-[#9aa4ac] mt-16 flex flex-col items-center gap-2">
-              <CartIcon size={36} strokeWidth={1.2} />
-              <p className="text-sm">Your cart is empty. Add some materials to get a quote.</p>
-            </div>
-          )}
-          {items.map((it) => (
-            <div key={it.cartId} className="bg-white rounded-xl border border-[#e5e0d5] p-3 flex gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="font-['Oswald'] font-semibold text-[13.5px] text-[#1c1f22] leading-snug">{it.name}</div>
-                {(it.gauge || it.color) && <div className="text-[11.5px] text-[#767f86] mt-0.5">{[it.gauge, it.color].filter(Boolean).join(" · ")}</div>}
-                <div className="flex items-center gap-2 mt-2">
-                  <div className="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
-                    <button onClick={() => updateQty(it.cartId, Math.max(1, it.qty - 1))} className="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]"><MinusIcon size={12} /></button>
-                    <span className="w-8 text-center text-xs font-medium">{it.qty}</span>
-                    <button onClick={() => updateQty(it.cartId, it.qty + 1)} className="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]"><PlusIcon size={12} /></button>
-                  </div>
-                  <span className="text-[11px] text-[#9aa4ac]">{it.unit}s</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end justify-between shrink-0">
-                <button onClick={() => removeItem(it.cartId)} className="text-[#c4453a] hover:text-[#9c332a]" aria-label="Remove item"><TrashIcon size={16} /></button>
-                <span className="font-['Oswald'] font-semibold text-sm text-[#1c1f22]">{kes(it.qty * it.unitPrice)}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        {items.length > 0 && (
-          <div className="border-t border-[#e5e0d5] bg-white px-5 py-4">
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-['Oswald'] uppercase tracking-wide text-sm text-[#4a5560]">Total</span>
-              <span className="font-['Oswald'] font-bold text-xl text-[#1c1f22]">{kes(total)}</span>
-            </div>
-            <button onClick={handleCheckout} className="w-full bg-[#25D366] hover:bg-[#1fb857] active:scale-[0.98] transition-all text-white rounded-xl py-3 font-['Oswald'] font-semibold uppercase tracking-wide flex items-center justify-center gap-2">
-              <ChatIcon size={19} /> Checkout via WhatsApp
-            </button>
-            <p className="text-[11px] text-center text-[#9aa4ac] mt-2">Opens WhatsApp with your itemized order to confirm with our team.</p>
-          </div>
-        )}
-      </div>
-    </>
-  );
-}
-
-function App() {
-  const [search, setSearch] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cart, setCart] = useState([]);
-
-  const filteredProducts = useMemo(() => PRODUCTS.filter((p) => {
-    const matchesCategory = activeCategory === "all" || p.category === activeCategory;
-    const matchesSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase());
+function renderMain() {
+  const filtered = PRODUCTS.filter((p) => {
+    const matchesCategory = state.activeCategory === "all" || p.category === state.activeCategory;
+    const s = state.search.toLowerCase();
+    const matchesSearch = !s || p.name.toLowerCase().includes(s) || p.description.toLowerCase().includes(s);
     return matchesCategory && matchesSearch;
-  }), [activeCategory, search]);
+  });
 
-  const grouped = useMemo(() => {
-    const byCat = {};
-    CATEGORIES.forEach((c) => (byCat[c.id] = []));
-    filteredProducts.forEach((p) => byCat[p.category].push(p));
-    return byCat;
-  }, [filteredProducts]);
+  if (filtered.length === 0) {
+    return `
+      <main class="max-w-7xl mx-auto px-4 pb-24">
+        <div class="text-center py-24 text-[#9aa4ac]">
+          <p class="font-['Oswald'] text-lg">No products match your search.</p>
+          <p class="text-sm mt-1">Try a different keyword or filter.</p>
+        </div>
+      </main>`;
+  }
 
-  const addToCart = (item) => {
-    setCart((prev) => {
-      const existingIdx = prev.findIndex((it) => it.productId === item.productId && it.gauge === item.gauge && it.color === item.color);
-      if (existingIdx >= 0) {
-        const copy = [...prev];
-        copy[existingIdx] = { ...copy[existingIdx], qty: copy[existingIdx].qty + item.qty };
-        return copy;
-      }
-      return [...prev, { ...item, cartId: `${item.productId}-${item.gauge}-${item.color}-${Date.now()}` }];
-    });
-    setCartOpen(true);
-  };
-  const updateQty = (cartId, qty) => setCart((prev) => prev.map((it) => (it.cartId === cartId ? { ...it, qty } : it)));
-  const removeItem = (cartId) => setCart((prev) => prev.filter((it) => it.cartId !== cartId));
+  const byCat = {};
+  CATEGORIES.forEach((c) => (byCat[c.id] = []));
+  filtered.forEach((p) => byCat[p.category].push(p));
 
-  const total = cart.reduce((sum, it) => sum + it.qty * it.unitPrice, 0);
-  const cartCount = cart.reduce((sum, it) => sum + it.qty, 0);
+  const sections = CATEGORIES.map((cat) => {
+    const items = byCat[cat.id];
+    if (!items || items.length === 0) return "";
+    return `
+      <section class="mt-8">
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="font-['Oswald'] font-bold text-xl sm:text-2xl text-[#1c1f22] uppercase tracking-tight">${escapeHtml(cat.label)}</h2>
+          <div class="h-[3px] flex-1 rounded-full bg-[#e5e0d5]"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${items.map((p) => renderProductCard(p)).join("")}
+        </div>
+      </section>`;
+  }).join("");
 
-  return (
-    <div className="min-h-screen bg-[#f2efe9]">
-      <AnnouncementBar />
-      <Header search={search} setSearch={setSearch} cartCount={cartCount} onOpenCart={() => setCartOpen(true)} />
-      <FilterPills active={activeCategory} setActive={setActiveCategory} />
-      <main className="max-w-7xl mx-auto px-4 pb-24">
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-24 text-[#9aa4ac]">
-            <p className="font-['Oswald'] text-lg">No products match your search.</p>
-            <p className="text-sm mt-1">Try a different keyword or filter.</p>
-          </div>
-        )}
-        {CATEGORIES.map((cat) => {
-          const items = grouped[cat.id];
-          if (!items || items.length === 0) return null;
-          return (
-            <section key={cat.id} className="mt-8">
-              <div className="flex items-center gap-3 mb-4">
-                <h2 className="font-['Oswald'] font-bold text-xl sm:text-2xl text-[#1c1f22] uppercase tracking-tight">{cat.label}</h2>
-                <div className="h-[3px] flex-1 rounded-full bg-[#e5e0d5]" />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {items.map((p) => <ProductCard key={p.id} product={p} onAdd={addToCart} />)}
-              </div>
-            </section>
-          );
-        })}
-      </main>
-      {cartCount > 0 && (
-        <button onClick={() => setCartOpen(true)} className="sm:hidden fixed bottom-5 right-5 z-30 bg-[#e8590c] text-white rounded-full shadow-lg shadow-black/30 px-5 py-3.5 flex items-center gap-2 font-['Oswald'] font-semibold">
-          <CartIcon size={18} />{kes(total)}
-        </button>
-      )}
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} items={cart} updateQty={updateQty} removeItem={removeItem} total={total} />
-      <footer className="bg-[#1c1f22] text-[#9aa4ac] text-center py-6 text-xs">
-        <RidgeStrip height={6} className="mb-6" />
-        © {new Date().getFullYear()} {BUSINESS_NAME}. Prices are indicative and confirmed on WhatsApp before delivery.
-      </footer>
-    </div>
-  );
+  return `<main class="max-w-7xl mx-auto px-4 pb-24">${sections}</main>`;
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+function renderMobileCartButton() {
+  const count = cartCount();
+  if (count === 0) return "";
+  return `
+    <button id="mobile-cart-btn" class="sm:hidden fixed bottom-5 right-5 z-30 bg-[#e8590c] text-white rounded-full shadow-lg shadow-black/30 px-5 py-3.5 flex items-center gap-2 font-['Oswald'] font-semibold">
+      ${ICONS.cart(18)}${kes(cartTotal())}
+    </button>`;
+}
+
+function renderCartDrawer() {
+  const open = state.cartOpen;
+  const items = state.cart;
+  const total = cartTotal();
+
+  const emptyState = items.length === 0 ? `
+    <div class="text-center text-[#9aa4ac] mt-16 flex flex-col items-center gap-2">
+      ${ICONS.cart(36, "", ).replace('stroke-width="2"', 'stroke-width="1.2"')}
+      <p class="text-sm">Your cart is empty. Add some materials to get a quote.</p>
+    </div>` : "";
+
+  const itemsHtml = items.map((it) => `
+    <div class="bg-white rounded-xl border border-[#e5e0d5] p-3 flex gap-3">
+      <div class="flex-1 min-w-0">
+        <div class="font-['Oswald'] font-semibold text-[13.5px] text-[#1c1f22] leading-snug">${escapeHtml(it.name)}</div>
+        ${(it.gauge || it.color) ? `<div class="text-[11.5px] text-[#767f86] mt-0.5">${escapeHtml([it.gauge, it.color].filter(Boolean).join(" · "))}</div>` : ""}
+        <div class="flex items-center gap-2 mt-2">
+          <div class="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
+            <button data-cart-id="${it.cartId}" data-role="cart-qty-minus" class="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]">${ICONS.minus(12)}</button>
+            <span class="w-8 text-center text-xs font-medium">${it.qty}</span>
+            <button data-cart-id="${it.cartId}" data-role="cart-qty-plus" class="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]">${ICONS.plus(12)}</button>
+          </div>
+          <span class="text-[11px] text-[#9aa4ac]">${it.unit}s</span>
+        </div>
+      </div>
+      <div class="flex flex-col items-end justify-between shrink-0">
+        <button data-cart-id="${it.cartId}" data-role="cart-remove" class="text-[#c4453a] hover:text-[#9c332a]" aria-label="Remove item">${ICONS.trash(16)}</button>
+        <span class="font-['Oswald'] font-semibold text-sm text-[#1c1f22]">${kes(it.qty * it.unitPrice)}</span>
+      </div>
+    </div>`).join("");
+
+  const footer = items.length > 0 ? `
+    <div class="border-t border-[#e5e0d5] bg-white px-5 py-4">
+      <div class="flex items-center justify-between mb-3">
+        <span class="font-['Oswald'] uppercase tracking-wide text-sm text-[#4a5560]">Total</span>
+        <span class="font-['Oswald'] font-bold text-xl text-[#1c1f22]">${kes(total)}</span>
+      </div>
+      <button id="checkout-btn" class="w-full bg-[#25D366] hover:bg-[#1fb857] active:scale-[0.98] transition-all text-white rounded-xl py-3 font-['Oswald'] font-semibold uppercase tracking-wide flex items-center justify-center gap-2">
+        ${ICONS.chat(19)} Checkout via WhatsApp
+      </button>
+      <p class="text-[11px] text-center text-[#9aa4ac] mt-2">Opens WhatsApp with your itemized order to confirm with our team.</p>
+    </div>` : "";
+
+  return `
+    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-40 transition-opacity ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}"></div>
+    <div class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#faf9f6] z-50 shadow-2xl flex flex-col transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}">
+      <div class="bg-[#1c1f22] text-white px-5 py-4 flex items-center justify-between">
+        <h2 class="font-['Oswald'] font-bold uppercase tracking-wide flex items-center gap-2">${ICONS.cart(19)} Your Cart</h2>
+        <button id="close-cart-btn" aria-label="Close cart">${ICONS.x(20)}</button>
+      </div>
+      ${ridgeStrip(5)}
+      <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
+        ${emptyState}
+        ${itemsHtml}
+      </div>
+      ${footer}
+    </div>`;
+}
+
+function renderFooter() {
+  return `
+    <footer class="bg-[#1c1f22] text-[#9aa4ac] text-center py-6 text-xs">
+      ${ridgeStrip(6, "mb-6")}
+      © ${new Date().getFullYear()} ${escapeHtml(BUSINESS_NAME)}. Prices are indicative and confirmed on WhatsApp before delivery.
+    </footer>`;
+}
+
+/* ============================================================
+   FULL RENDER
+   ============================================================ */
+function render() {
+  const root = document.getElementById("root");
+  // preserve focus + caret position across re-renders for the active input
+  const active = document.activeElement;
+  const activeId = active && active.id;
+  const selStart = active && "selectionStart" in active ? active.selectionStart : null;
+  const selEnd = active && "selectionEnd" in active ? active.selectionEnd : null;
+
+  root.innerHTML = `
+    <div class="min-h-screen bg-[#f2efe9]">
+      ${renderAnnouncementBar()}
+      ${renderHeader()}
+      ${renderFilterPills()}
+      ${renderMain()}
+      ${renderMobileCartButton()}
+      ${renderCartDrawer()}
+      ${renderFooter()}
+    </div>`;
+
+  attachHandlers();
+
+  if (activeId) {
+    const el = document.getElementById(activeId);
+    if (el) {
+      el.focus();
+      if (selStart != null && "setSelectionRange" in el) {
+        try { el.setSelectionRange(selStart, selEnd); } catch (e) {}
+      }
+    }
+  }
+}
+
+/* ============================================================
+   EVENT WIRING
+   ============================================================ */
+function attachHandlers() {
+  // search inputs
+  const searchDesktop = document.getElementById("search-desktop");
+  const searchMobile = document.getElementById("search-mobile");
+  if (searchDesktop) searchDesktop.addEventListener("input", (e) => { state.search = e.target.value; render(); });
+  if (searchMobile) searchMobile.addEventListener("input", (e) => { state.search = e.target.value; render(); });
+  const clearDesktop = document.getElementById("clear-search-desktop");
+  const clearMobile = document.getElementById("clear-search-mobile");
+  if (clearDesktop) clearDesktop.addEventListener("click", () => { state.search = ""; render(); });
+  if (clearMobile) clearMobile.addEventListener("click", () => { state.search = ""; render(); });
+
+  // cart open/close
+  const openCartBtn = document.getElementById("open-cart-btn");
+  const closeCartBtn = document.getElementById("close-cart-btn");
+  const cartOverlay = document.getElementById("cart-overlay");
+  const mobileCartBtn = document.getElementById("mobile-cart-btn");
+  if (openCartBtn) openCartBtn.addEventListener("click", () => { state.cartOpen = true; render(); });
+  if (closeCartBtn) closeCartBtn.addEventListener("click", () => { state.cartOpen = false; render(); });
+  if (cartOverlay) cartOverlay.addEventListener("click", () => { state.cartOpen = false; render(); });
+  if (mobileCartBtn) mobileCartBtn.addEventListener("click", () => { state.cartOpen = true; render(); });
+
+  // filter pills
+  document.querySelectorAll(".filter-pill").forEach((btn) => {
+    btn.addEventListener("click", () => { state.activeCategory = btn.dataset.cat; render(); });
+  });
+
+  // product card controls
+  document.querySelectorAll('select[data-role="gauge"]').forEach((sel) => {
+    sel.addEventListener("change", (e) => {
+      state.cardState[sel.dataset.product].gaugeIdx = Number(e.target.value);
+      render();
+    });
+  });
+  document.querySelectorAll('select[data-role="color"]').forEach((sel) => {
+    sel.addEventListener("change", (e) => {
+      state.cardState[sel.dataset.product].colorIdx = Number(e.target.value);
+      render();
+    });
+  });
+  document.querySelectorAll('[data-role="qty-minus"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const product = PRODUCTS.find((p) => p.id === btn.dataset.product);
+      const cs = state.cardState[btn.dataset.product];
+      const step = product.gauges ? 5 : 1;
+      cs.qty = Math.max(1, cs.qty - step);
+      render();
+    });
+  });
+  document.querySelectorAll('[data-role="qty-plus"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const product = PRODUCTS.find((p) => p.id === btn.dataset.product);
+      const cs = state.cardState[btn.dataset.product];
+      const step = product.gauges ? 5 : 1;
+      cs.qty = cs.qty + step;
+      render();
+    });
+  });
+  document.querySelectorAll('input[data-role="qty-input"]').forEach((inp) => {
+    inp.addEventListener("input", (e) => {
+      const cs = state.cardState[inp.dataset.product];
+      cs.qty = Math.max(1, Number(e.target.value) || 1);
+      render();
+    });
+  });
+  document.querySelectorAll('[data-role="add-to-cart"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const product = PRODUCTS.find((p) => p.id === btn.dataset.product);
+      const cs = state.cardState[product.id];
+      const hasGauges = !!product.gauges;
+      const unitPrice = hasGauges ? product.gauges[cs.gaugeIdx].price : product.price;
+      addToCart({
+        productId: product.id, name: product.name, unit: product.unit,
+        gauge: hasGauges ? product.gauges[cs.gaugeIdx].label : null,
+        color: hasGauges ? product.colors[cs.colorIdx] : null,
+        qty: Math.max(1, cs.qty), unitPrice,
+      });
+      cs.justAdded = true;
+      render();
+      setTimeout(() => { cs.justAdded = false; render(); }, 1200);
+    });
+  });
+
+  // cart drawer item controls
+  document.querySelectorAll('[data-role="cart-qty-minus"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const it = state.cart.find((i) => i.cartId === btn.dataset.cartId);
+      if (it) updateQty(it.cartId, Math.max(1, it.qty - 1));
+      render();
+    });
+  });
+  document.querySelectorAll('[data-role="cart-qty-plus"]').forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const it = state.cart.find((i) => i.cartId === btn.dataset.cartId);
+      if (it) updateQty(it.cartId, it.qty + 1);
+      render();
+    });
+  });
+  document.querySelectorAll('[data-role="cart-remove"]').forEach((btn) => {
+    btn.addEventListener("click", () => { removeItem(btn.dataset.cartId); render(); });
+  });
+
+  const checkoutBtn = document.getElementById("checkout-btn");
+  if (checkoutBtn) checkoutBtn.addEventListener("click", handleCheckout);
+}
+
+render();
 </script>
 </body>
 </html>

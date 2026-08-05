@@ -38,6 +38,9 @@ const CATEGORIES = [
 ];
 
 const TILE_COLORS = ["Red", "Blue", "Green", "Charcoal"];
+const TILE_COLORS_VERSATILE = ["Charcoal", "Tile Red", "Maroon", "Chocolate"];
+const TILE_COLORS_ELEGANTILE = ["Chocolate", "Brick Red", "Tile Red", "Charcoal", "Maroon"];
+const TILE_COLORS_ORIENTILE = ["Brick Red", "Chocolate", "Charcoal", "Tile Red", "Maroon"];
 
 const PRODUCTS = [
   {
@@ -57,6 +60,38 @@ const PRODUCTS = [
     colors: TILE_COLORS,
   },
   {
+    id: "covermax-box", category: "mabati",
+    name: "Covermax Box Profile",
+    description: "Entry-level box-profile sheet with a 1015mm effective cover width. An economical alternative to MaxCover for budget-sensitive domestic and light industrial roofs.",
+    unit: "metre", icon: "steeltile",
+    gauges: [{ label: "Gauge 30 (Smooth)", price: 539 }],
+    colors: ["Tile Red", "Sky Blue", "Maroon", "Dark Green", "Charcoal", "Brick Red"],
+    photos: {
+      "Gauge 30 (Smooth)|Sky Blue": "images/covermax-sky-blue-smooth.png",
+      "Gauge 30 (Smooth)|Brick Red": "images/covermax-brick-red-smooth.png",
+      "Gauge 30 (Smooth)|Tile Red": "images/covermax-tile-red-smooth.png",
+      "Gauge 30 (Smooth)|Maroon": "images/covermax-maroon-smooth.png",
+      "Gauge 30 (Smooth)|Dark Green": "images/covermax-dark-green-smooth.png",
+      default: "images/covermax-brick-red-smooth.png",
+    },
+  },
+  {
+    id: "maxcover-box", category: "mabati",
+    name: "MaxCover Box Profile",
+    description: "Aluminium-zinc coated box-profile sheet with a 1015mm effective cover width and anti-capillary groove to prevent leaking. Available smooth or textured, for domestic, light industrial and commercial roofs.",
+    unit: "metre", icon: "steeltile",
+    gauges: [
+      { label: "Gauge 30 (Smooth)", price: 671 },
+      { label: "Gauge 28 (Smooth)", price: 855 },
+      { label: "Gauge 28 (Textured)", price: 930 },
+    ],
+    colors: ["Charcoal", "Dark Green", "Brick Red", "Sky Blue", "Tile Red", "Maroon"],
+    photos: {
+      "Gauge 30 (Smooth)|Charcoal": "images/maxcover-charcoal-smooth.png",
+      default: "images/maxcover-charcoal-smooth.png",
+    },
+  },
+  {
     id: "corrugated", category: "mabati",
     name: "Corrugated / Ordinary Galvanized Mabati",
     description: "The classic wave-profile galvanized sheet. Budget-friendly, dependable, and the standard for stores, fences and simple roofs.",
@@ -71,6 +106,48 @@ const PRODUCTS = [
     unit: "metre", icon: "mabati",
     gauges: [{ label: "Gauge 30", price: 550 }, { label: "Gauge 28", price: 600 }],
     colors: TILE_COLORS,
+  },
+  {
+    id: "versatile-tile", category: "mabati",
+    name: "Versatile Steel Tile",
+    description: "Kenya's longest-running painted steel tile profile. Aluminium-zinc base for extra corrosion resistance, lasts roughly twice as long as ordinary colour-coated sheets. Available in smooth or textured finish.",
+    unit: "metre", icon: "steeltile",
+    gauges: [
+      { label: "Gauge 28 (Smooth)", price: 875 },
+      { label: "Gauge 28 (Textured)", price: 997 },
+    ],
+    colors: TILE_COLORS_VERSATILE,
+    photos: {
+      "Gauge 28 (Textured)|Charcoal": "images/versatile-charcoal-textured.png",
+      "Gauge 28 (Textured)|Chocolate": "images/versatile-chocolate-textured.png",
+      "Gauge 28 (Smooth)|Tile Red": "images/versatile-tile-red-smooth.png",
+      "Gauge 28 (Smooth)|Charcoal": "images/versatile-charcoal-smooth.png",
+      default: "images/versatile-charcoal-textured.png",
+    },
+  },
+  {
+    id: "elegantile-tile", category: "mabati",
+    name: "Elegantile Steel Tile",
+    description: "Sophisticated smooth-lined tile profile with a Mediterranean-inspired shape suited to tropical climates. Continuous-length panels reduce leakage risk and speed up installation; no underlays needed.",
+    unit: "metre", icon: "steeltile",
+    gauges: [{ label: "Gauge 28 (Textured)", price: 997 }],
+    colors: TILE_COLORS_ELEGANTILE,
+    photos: {
+      "Gauge 28 (Textured)|Chocolate": "images/elegantile-chocolate-textured.png",
+      default: "images/elegantile-chocolate-textured.png",
+    },
+  },
+  {
+    id: "orientile-tile", category: "mabati",
+    name: "Orientile Steel Tile",
+    description: "Textured steel tile profile in the Tile Roofing Solutions range, offering a classic tiled roofline with the durability and light weight of coated steel sheeting.",
+    unit: "metre", icon: "steeltile",
+    gauges: [{ label: "Gauge 28 (Textured)", price: 997 }],
+    colors: TILE_COLORS_ORIENTILE,
+    photos: {
+      "Gauge 28 (Textured)|Brick Red": "images/orientile-brickred-textured.png",
+      default: "images/orientile-brickred-textured.png",
+    },
   },
   {
     id: "simba-325r", category: "cement",
@@ -117,6 +194,7 @@ const PRODUCTS = [
    ============================================================ */
 const PRODUCT_IMAGES = {
   mabati: "https://images.unsplash.com/photo-1706029831375-c090c70c161d?fm=jpg&q=80&w=800&auto=format&fit=crop",
+  steeltile: "https://images.unsplash.com/photo-1605450099279-533bd3ce379a?fm=jpg&q=80&w=800&auto=format&fit=crop",
   cement: "https://images.unsplash.com/photo-1560435650-7ec2e17ba926?fm=jpg&q=80&w=800&auto=format&fit=crop",
   rebar: "https://images.unsplash.com/photo-1763771420303-0f11ccf613d1?fm=jpg&q=80&w=800&auto=format&fit=crop",
   wire: "https://images.unsplash.com/photo-1727670404457-9c5497d58fad?fm=jpg&q=80&w=800&auto=format&fit=crop",
@@ -283,6 +361,14 @@ function renderProductCard(product) {
   const unitPrice = hasGauges ? product.gauges[cs.gaugeIdx].price : product.price;
   const priceRange = hasGauges ? [product.gauges[0].price, product.gauges[product.gauges.length - 1].price] : null;
 
+  let imgSrc = PRODUCT_IMAGES[product.icon];
+  if (product.photos) {
+    const gaugeLabel = hasGauges ? product.gauges[cs.gaugeIdx].label : null;
+    const color = hasGauges ? product.colors[cs.colorIdx] : null;
+    const key = `${gaugeLabel}|${color}`;
+    imgSrc = product.photos[key] || product.photos.default || imgSrc;
+  }
+
   const gaugeColorBlock = hasGauges ? `
     <div class="grid grid-cols-2 gap-2">
       <div>
@@ -311,7 +397,7 @@ function renderProductCard(product) {
   return `
     <div class="bg-white rounded-2xl overflow-hidden border border-[#e5e0d5] shadow-sm hover:shadow-md transition-shadow flex flex-col">
       <div class="h-36 w-full overflow-hidden">
-        <img src="${PRODUCT_IMAGES[product.icon]}" alt="${escapeHtml(product.name)}" loading="lazy" class="w-full h-full object-cover" />
+        <img src="${imgSrc}" alt="${escapeHtml(product.name)}" loading="lazy" class="w-full h-full object-cover" />
       </div>
       ${ridgeStrip(6)}
       <div class="p-4 flex flex-col gap-3 flex-1">

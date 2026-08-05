@@ -3,44 +3,121 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Royal Mabati</title>
+<title>Royal Mabati — Premium Roofing & Construction Materials</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['Outfit', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        royal: {
+          red: '#C41E3A',
+          darkred: '#9B1B30',
+          blue: '#1E3A8A',
+          darkblue: '#152C6E',
+          gold: '#D4AF37',
+          darkgold: '#B8941F',
+          charcoal: '#0F1115',
+          slate: '#1A1D23',
+          light: '#F8F7F4',
+        }
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'slide-in-right': 'slideInRight 0.3s ease-out',
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        slideInRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        }
+      }
+    }
+  }
+}
+</script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
-  body { font-family: 'Inter', sans-serif; margin:0; }
+  body { font-family: 'Inter', sans-serif; background: #F8F7F4; }
+  .font-display { font-family: 'Outfit', sans-serif; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   input[type=number].no-spinner::-webkit-outer-spin-button,
   input[type=number].no-spinner::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
   input[type=number].no-spinner { -moz-appearance: textfield; }
   .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .ridge-strip { display:block; }
+  .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .glass-dark { background: rgba(15, 17, 21, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  .product-card { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .product-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+  .hero-gradient { background: linear-gradient(135deg, #0F1115 0%, #1A1D23 50%, #152C6E 100%); }
+  .text-gradient { background: linear-gradient(135deg, #C41E3A 0%, #D4AF37 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .gold-gradient { background: linear-gradient(135deg, #D4AF37 0%, #F4D03F 50%, #D4AF37 100%); background-size: 200% 200%; }
+  .shimmer-bg { background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%); background-size: 200% 100%; animation: shimmer 2s infinite; }
+  .ridge-pattern { background-image: repeating-linear-gradient(90deg, rgba(196, 30, 58, 0.3) 0px, rgba(196, 30, 58, 0.3) 2px, rgba(212, 175, 55, 0.15) 2px, rgba(212, 175, 55, 0.15) 5px, rgba(30, 58, 138, 0.1) 5px, rgba(30, 58, 138, 0.1) 9px); }
+  @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .category-pill { transition: all 0.3s ease; }
+  .category-pill:hover { transform: scale(1.05); }
+  .category-pill.active { background: linear-gradient(135deg, #C41E3A 0%, #9B1B30 100%); color: white; box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4); }
+  .add-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+  .add-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+  .add-btn:hover::before { left: 100%; }
+  .cart-drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+  .image-zoom { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .product-card:hover .image-zoom { transform: scale(1.08); }
+  .badge-pop { animation: popIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+  .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+  .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+  .whatsapp-btn { background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); transition: all 0.3s ease; }
+  .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
 </style>
 </head>
-<body>
+<body class="antialiased">
 <div id="root"></div>
-
 <script>
-/* ============================================================
-   BRAND / BUSINESS CONFIG — change these to customize
-   ============================================================ */
 const BUSINESS_NAME = "Royal Mabati";
-const BUSINESS_TAGLINE = "Roofing-grade materials, straight to site.";
-const WHATSAPP_NUMBER = "254757869102"; // digits only, country code, no +
+const BUSINESS_TAGLINE = "Crowning Your Home With Excellence";
+const WHATSAPP_NUMBER = "254757869102";
 
-/* ============================================================
-   PRODUCT DATA
-   ============================================================ */
 const CATEGORIES = [
-  { id: "mabati", label: "Mabati (Roofing)" },
-  { id: "cement", label: "Cement" },
-  { id: "steel", label: "Steel & Hardware" },
+  { id: "mabati", label: "Mabati (Roofing)", icon: "roof" },
+  { id: "cement", label: "Cement", icon: "bag" },
+  { id: "steel", label: "Steel & Hardware", icon: "steel" },
 ];
 
 const TILE_COLORS = ["Red", "Blue", "Green", "Charcoal"];
 const TILE_COLORS_VERSATILE = ["Charcoal", "Tile Red", "Maroon", "Chocolate"];
 const TILE_COLORS_ELEGANTILE = ["Chocolate", "Brick Red", "Tile Red", "Charcoal", "Maroon"];
 const TILE_COLORS_ORIENTILE = ["Brick Red", "Chocolate", "Charcoal", "Tile Red", "Maroon"];
+
+const img = (filename) => filename;
 
 const PRODUCTS = [
   {
@@ -50,6 +127,12 @@ const PRODUCTS = [
     unit: "metre", icon: "mabati",
     gauges: [{ label: "Gauge 30", price: 491 }, { label: "Gauge 28", price: 550 }],
     colors: TILE_COLORS,
+    photos: {
+      "Gauge 30|Brick Red": img("royal zee tile Mandarin-Tile-30-Gauge-Brick-Red-Matt-1.jpg"),
+      "Gauge 30|Red": img("Glazed tile maroon matt 30g .jpg"),
+      default: img("royal zee tile Mandarin-Tile-30-Gauge-Brick-Red-Matt-1.jpg"),
+    },
+    featured: true,
   },
   {
     id: "box-profile", category: "mabati",
@@ -58,6 +141,10 @@ const PRODUCTS = [
     unit: "metre", icon: "mabati",
     gauges: [{ label: "Gauge 30", price: 500 }, { label: "Gauge 28", price: 550 }],
     colors: TILE_COLORS,
+    photos: {
+      "Gauge 30|Red": img("Resincot 30G Tile Red Smooth .png"),
+      default: img("Resincot 30G Tile Red Smooth .png"),
+    },
   },
   {
     id: "covermax-box", category: "mabati",
@@ -67,18 +154,18 @@ const PRODUCTS = [
     gauges: [{ label: "Gauge 30 (Smooth)", price: 539 }],
     colors: ["Tile Red", "Sky Blue", "Maroon", "Dark Green", "Charcoal", "Brick Red"],
     photos: {
-      "Gauge 30 (Smooth)|Sky Blue": "images/covermax-sky-blue-smooth.png",
-      "Gauge 30 (Smooth)|Brick Red": "images/covermax-brick-red-smooth.png",
-      "Gauge 30 (Smooth)|Tile Red": "images/covermax-tile-red-smooth.png",
-      "Gauge 30 (Smooth)|Maroon": "images/covermax-maroon-smooth.png",
-      "Gauge 30 (Smooth)|Dark Green": "images/covermax-dark-green-smooth.png",
-      default: "images/covermax-brick-red-smooth.png",
+      "Gauge 30 (Smooth)|Sky Blue": img("covermax-sky-blue-smooth.png"),
+      "Gauge 30 (Smooth)|Brick Red": img("covermax-brick-red-smooth.png"),
+      "Gauge 30 (Smooth)|Tile Red": img("covermax-tile-red-smooth.png"),
+      "Gauge 30 (Smooth)|Maroon": img("covermax-maroon-smooth.png"),
+      "Gauge 30 (Smooth)|Dark Green": img("covermax-dark-green-smooth.png"),
+      default: img("covermax-brick-red-smooth.png"),
     },
   },
   {
     id: "maxcover-box", category: "mabati",
     name: "MaxCover Box Profile",
-    description: "Aluminium-zinc coated box-profile sheet with a 1015mm effective cover width and anti-capillary groove to prevent leaking. Available smooth or textured, for domestic, light industrial and commercial roofs.",
+    description: "Aluminium-zinc coated box-profile sheet with a 1015mm effective cover width and anti-capillary groove to prevent leaking.",
     unit: "metre", icon: "steeltile",
     gauges: [
       { label: "Gauge 30 (Smooth)", price: 671 },
@@ -87,8 +174,8 @@ const PRODUCTS = [
     ],
     colors: ["Charcoal", "Dark Green", "Brick Red", "Sky Blue", "Tile Red", "Maroon"],
     photos: {
-      "Gauge 30 (Smooth)|Charcoal": "images/maxcover-charcoal-smooth.png",
-      default: "images/maxcover-charcoal-smooth.png",
+      "Gauge 30 (Smooth)|Charcoal": img("maxcover-charcoal-smooth.png"),
+      default: img("maxcover-charcoal-smooth.png"),
     },
   },
   {
@@ -98,6 +185,10 @@ const PRODUCTS = [
     unit: "metre", icon: "mabati",
     gauges: [{ label: "Gauge 30", price: 300 }, { label: "Gauge 28", price: 350 }],
     colors: ["Galvanized Silver"],
+    photos: {
+      "Gauge 30|Galvanized Silver": img("Dumuzas 32G Unpainted .png"),
+      default: img("Dumuzas 32G Unpainted .png"),
+    },
   },
   {
     id: "roman-longtile", category: "mabati",
@@ -106,11 +197,13 @@ const PRODUCTS = [
     unit: "metre", icon: "mabati",
     gauges: [{ label: "Gauge 30", price: 550 }, { label: "Gauge 28", price: 600 }],
     colors: TILE_COLORS,
+    photos: { default: img("roman_long_tile.gif") },
+    featured: true,
   },
   {
     id: "versatile-tile", category: "mabati",
     name: "Versatile Steel Tile",
-    description: "Kenya's longest-running painted steel tile profile. Aluminium-zinc base for extra corrosion resistance, lasts roughly twice as long as ordinary colour-coated sheets. Available in smooth or textured finish.",
+    description: "Kenya's longest-running painted steel tile profile. Aluminium-zinc base for extra corrosion resistance, lasts roughly twice as long as ordinary colour-coated sheets.",
     unit: "metre", icon: "steeltile",
     gauges: [
       { label: "Gauge 28 (Smooth)", price: 875 },
@@ -118,23 +211,24 @@ const PRODUCTS = [
     ],
     colors: TILE_COLORS_VERSATILE,
     photos: {
-      "Gauge 28 (Textured)|Charcoal": "images/versatile-charcoal-textured.png",
-      "Gauge 28 (Textured)|Chocolate": "images/versatile-chocolate-textured.png",
-      "Gauge 28 (Smooth)|Tile Red": "images/versatile-tile-red-smooth.png",
-      "Gauge 28 (Smooth)|Charcoal": "images/versatile-charcoal-smooth.png",
-      default: "images/versatile-charcoal-textured.png",
+      "Gauge 28 (Textured)|Charcoal": img("versatile-charcoal-textured.png"),
+      "Gauge 28 (Textured)|Chocolate": img("versatile-chocolate-textured.png"),
+      "Gauge 28 (Smooth)|Tile Red": img("versatile-tile-red-smooth.png"),
+      "Gauge 28 (Smooth)|Charcoal": img("versatile-charcoal-smooth.png"),
+      default: img("versatile-charcoal-textured.png"),
     },
+    featured: true,
   },
   {
     id: "elegantile-tile", category: "mabati",
     name: "Elegantile Steel Tile",
-    description: "Sophisticated smooth-lined tile profile with a Mediterranean-inspired shape suited to tropical climates. Continuous-length panels reduce leakage risk and speed up installation; no underlays needed.",
+    description: "Sophisticated smooth-lined tile profile with a Mediterranean-inspired shape suited to tropical climates. Continuous-length panels reduce leakage risk.",
     unit: "metre", icon: "steeltile",
     gauges: [{ label: "Gauge 28 (Textured)", price: 997 }],
     colors: TILE_COLORS_ELEGANTILE,
     photos: {
-      "Gauge 28 (Textured)|Chocolate": "images/elegantile-chocolate-textured.png",
-      default: "images/elegantile-chocolate-textured.png",
+      "Gauge 28 (Textured)|Chocolate": img("elegantile-chocolate-textured.png"),
+      default: img("elegantile-chocolate-textured.png"),
     },
   },
   {
@@ -145,8 +239,8 @@ const PRODUCTS = [
     gauges: [{ label: "Gauge 28 (Textured)", price: 997 }],
     colors: TILE_COLORS_ORIENTILE,
     photos: {
-      "Gauge 28 (Textured)|Brick Red": "images/orientile-brickred-textured.png",
-      default: "images/orientile-brickred-textured.png",
+      "Gauge 28 (Textured)|Brick Red": img("orientile-brickred-textured.png"),
+      default: img("orientile-brickred-textured.png"),
     },
   },
   {
@@ -154,12 +248,14 @@ const PRODUCTS = [
     name: "Simba Cement 32.5R",
     description: "General-purpose masonry cement for blockwork, plastering and rendering. The everyday bag for standard construction.",
     unit: "bag", icon: "cement", price: 550,
+    photos: { default: img("simba cement.jpg") },
   },
   {
     id: "simba-power-425n", category: "cement",
     name: "Simba Power Portland Cement 42.5N",
     description: "High early-strength Portland cement for structural concrete, columns, slabs and foundations that need to gain strength fast.",
     unit: "bag", icon: "cement", price: 640,
+    photos: { default: img("simba cement.jpg") },
   },
   {
     id: "d8-bar", category: "steel",
@@ -184,14 +280,10 @@ const PRODUCTS = [
     name: "Binding Wire",
     description: "Soft-drawn tying wire for fixing rebar cages before casting. Full roll.",
     unit: "roll", icon: "wire", price: 2900,
+    photos: { default: img("Binding Wire.jpg") },
   },
 ];
 
-/* ============================================================
-   PRODUCT PHOTOS — real photography, Unsplash License
-   (free for commercial use, no attribution required)
-   Swap these URLs for your own stock photos any time.
-   ============================================================ */
 const PRODUCT_IMAGES = {
   mabati: "https://images.unsplash.com/photo-1706029831375-c090c70c161d?fm=jpg&q=80&w=800&auto=format&fit=crop",
   steeltile: "https://images.unsplash.com/photo-1605450099279-533bd3ce379a?fm=jpg&q=80&w=800&auto=format&fit=crop",
@@ -200,59 +292,42 @@ const PRODUCT_IMAGES = {
   wire: "https://images.unsplash.com/photo-1727670404457-9c5497d58fad?fm=jpg&q=80&w=800&auto=format&fit=crop",
 };
 
-/* ============================================================
-   HELPERS
-   ============================================================ */
 const kes = (n) => "KSh " + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 const escapeHtml = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-/* ============================================================
-   INLINE ICON SET (SVG strings) — no external icon library
-   ============================================================ */
-function icon(pathInner, size = 18, strokeWidth = 2, cls = "") {
+function icon(pathInner, size, strokeWidth, cls) {
+  size = size || 18; strokeWidth = strokeWidth || 2; cls = cls || "";
   return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" class="${cls}" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${pathInner}</svg>`;
 }
 const ICONS = {
-  search: (size, cls) => icon(`<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`, size, 2, cls),
-  x: (size, cls) => icon(`<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`, size, 2, cls),
-  plus: (size, cls) => icon(`<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`, size, 2, cls),
-  minus: (size, cls) => icon(`<line x1="5" y1="12" x2="19" y2="12"/>`, size, 2, cls),
-  cart: (size, cls) => icon(`<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>`, size, 2, cls),
-  chat: (size, cls) => icon(`<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>`, size, 2, cls),
-  trash: (size, cls) => icon(`<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>`, size, 2, cls),
-  check: (size, cls) => icon(`<polyline points="20 6 9 17 4 12"/>`, size, 2, cls),
-  truck: (size, cls) => icon(`<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`, size, 2, cls),
-  shield: (size, cls) => icon(`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`, size, 2, cls),
+  search: (s,c) => icon(`<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`,s,2,c),
+  x: (s,c) => icon(`<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>`,s,2,c),
+  plus: (s,c) => icon(`<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`,s,2,c),
+  minus: (s,c) => icon(`<line x1="5" y1="12" x2="19" y2="12"/>`,s,2,c),
+  cart: (s,c) => icon(`<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>`,s,2,c),
+  chat: (s,c) => icon(`<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>`,s,2,c),
+  trash: (s,c) => icon(`<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>`,s,2,c),
+  check: (s,c) => icon(`<polyline points="20 6 9 17 4 12"/>`,s,2,c),
+  truck: (s,c) => icon(`<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>`,s,2,c),
+  shield: (s,c) => icon(`<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>`,s,2,c),
+  crown: (s,c) => icon(`<path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm11 14h-4"/>`,s,2,c),
+  star: (s,c) => icon(`<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>`,s,2,c),
+  roof: (s,c) => icon(`<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,s,2,c),
+  arrowRight: (s,c) => icon(`<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>`,s,2,c),
+  phone: (s,c) => icon(`<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>`,s,2,c),
+  zap: (s,c) => icon(`<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,s,2,c),
 };
 
-function ridgeStrip(height = 10, cls = "") {
-  return `<div class="${cls}" style="height:${height}px;background-image:repeating-linear-gradient(90deg, rgba(0,0,0,0.28) 0px, rgba(0,0,0,0.28) 2px, rgba(255,255,255,0.10) 2px, rgba(255,255,255,0.10) 5px, rgba(0,0,0,0.05) 5px, rgba(0,0,0,0.05) 9px)"></div>`;
-}
-
-/* ============================================================
-   STATE
-   ============================================================ */
 const state = {
-  search: "",
-  activeCategory: "all",
-  cartOpen: false,
-  cart: [], // { cartId, productId, name, unit, gauge, color, qty, unitPrice }
-  // per-product-card transient UI state, keyed by product id
-  cardState: {},
+  search: "", activeCategory: "all", cartOpen: false, cart: [], cardState: {}, scrolled: false,
 };
-
 PRODUCTS.forEach((p) => {
   const hasGauges = !!p.gauges;
   state.cardState[p.id] = { gaugeIdx: 0, colorIdx: 0, qty: hasGauges ? 10 : 1, justAdded: false };
 });
 
-/* ============================================================
-   CART LOGIC
-   ============================================================ */
 function addToCart(item) {
-  const existingIdx = state.cart.findIndex(
-    (it) => it.productId === item.productId && it.gauge === item.gauge && it.color === item.color
-  );
+  const existingIdx = state.cart.findIndex((it) => it.productId === item.productId && it.gauge === item.gauge && it.color === item.color);
   if (existingIdx >= 0) {
     state.cart[existingIdx] = { ...state.cart[existingIdx], qty: state.cart[existingIdx].qty + item.qty };
   } else {
@@ -278,23 +353,38 @@ function buildWhatsAppMessage() {
     const specs = [it.gauge, it.color].filter(Boolean).join(", ");
     return `${i + 1}. ${it.name}${specs ? " (" + specs + ")" : ""} — ${it.qty} ${it.unit}${it.qty > 1 ? "s" : ""} @ ${kes(it.unitPrice)} = ${kes(it.qty * it.unitPrice)}`;
   });
-  return `Hello ${BUSINESS_NAME}, I'd like to order:\n\n` + lines.join("\n") + `\n\nTOTAL: ${kes(cartTotal())}\n\nPlease confirm availability and delivery to my location.`;
+  return `Hello ${BUSINESS_NAME}, I'd like to order:
+
+` + lines.join("\n") + `\n\nTOTAL: ${kes(cartTotal())}\n\nPlease confirm availability and delivery to my location.`;
 }
 function handleCheckout() {
   const text = encodeURIComponent(buildWhatsAppMessage());
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
 }
+function getProductImage(product, cs) {
+  if (product.photos) {
+    const hasGauges = !!product.gauges;
+    const gaugeLabel = hasGauges ? product.gauges[cs.gaugeIdx].label : null;
+    const color = hasGauges ? product.colors[cs.colorIdx] : null;
+    const key = `${gaugeLabel}|${color}`;
+    if (product.photos[key]) return product.photos[key];
+    if (product.photos.default) return product.photos.default;
+  }
+  return PRODUCT_IMAGES[product.icon] || PRODUCT_IMAGES.mabati;
+}
 
-/* ============================================================
-   RENDER: pieces
-   ============================================================ */
 function renderAnnouncementBar() {
   return `
-    <div class="bg-[#161a1d] text-[#e8590c] text-[12px] sm:text-[13px] tracking-wide font-semibold">
-      <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-center gap-2 text-center">
-        ${ICONS.truck(14, "shrink-0")}
-        <span class="uppercase font-['Oswald'] tracking-[0.06em]">Fast countrywide delivery &nbsp;•&nbsp; Quality-certified hardware</span>
-        ${ICONS.shield(14, "shrink-0")}
+    <div class="bg-royal-charcoal text-white text-[11px] sm:text-xs tracking-wider font-semibold overflow-hidden relative">
+      <div class="absolute inset-0 shimmer-bg opacity-20"></div>
+      <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-center gap-3 text-center relative z-10">
+        ${ICONS.truck(14, "shrink-0 text-royal-gold")}
+        <span class="uppercase font-display tracking-[0.12em] text-royal-gold">Fast countrywide delivery</span>
+        <span class="text-white/40">|</span>
+        <span class="uppercase font-display tracking-[0.12em]">Quality-certified hardware</span>
+        <span class="text-white/40">|</span>
+        <span class="uppercase font-display tracking-[0.12em] text-royal-red">Roofing Experts Since Day One</span>
+        ${ICONS.shield(14, "shrink-0 text-royal-gold")}
       </div>
     </div>`;
 }
@@ -302,42 +392,127 @@ function renderAnnouncementBar() {
 function renderHeader() {
   const count = cartCount();
   const badge = count > 0
-    ? `<span class="absolute -top-2 -right-2 bg-[#1c1f22] text-[#e8590c] border-2 border-[#e8590c] text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center">${count}</span>`
+    ? `<span class="absolute -top-2 -right-2 bg-royal-red text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center badge-pop shadow-lg shadow-royal-red/40">${count}</span>`
     : "";
   const clearBtnDesktop = state.search
-    ? `<button id="clear-search-desktop" aria-label="Clear search">${ICONS.x(15, "text-[#9aa4ac] hover:text-white")}</button>` : "";
+    ? `<button id="clear-search-desktop" aria-label="Clear search" class="hover:text-royal-red transition-colors">${ICONS.x(15, "text-gray-400")}</button>` : "";
   const clearBtnMobile = state.search
-    ? `<button id="clear-search-mobile" aria-label="Clear search">${ICONS.x(15, "text-[#9aa4ac]")}</button>` : "";
-
+    ? `<button id="clear-search-mobile" aria-label="Clear search" class="hover:text-royal-red transition-colors">${ICONS.x(15, "text-gray-400")}</button>` : "";
+  const headerBg = state.scrolled ? "glass-dark shadow-xl shadow-black/20" : "bg-transparent";
   return `
-    <header class="sticky top-0 z-30 bg-[#1c1f22] text-[#f2efe9] shadow-lg shadow-black/20">
-      ${ridgeStrip(5)}
-      <div class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-4">
-        <div class="flex flex-col leading-tight shrink-0">
-          <span class="font-['Oswald'] font-bold text-xl sm:text-2xl tracking-tight uppercase">${escapeHtml(BUSINESS_NAME)}</span>
-          <span class="text-[11px] sm:text-xs text-[#9aa4ac] font-medium">${escapeHtml(BUSINESS_TAGLINE)}</span>
-        </div>
-        <div class="flex-1 hidden sm:flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5 focus-within:border-[#e8590c]/60 transition-colors">
-          ${ICONS.search(17, "text-[#9aa4ac] shrink-0")}
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${headerBg}">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-4">
+        <a href="#" class="flex items-center gap-3 shrink-0 group" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+          <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur flex items-center justify-center overflow-hidden border border-white/10 group-hover:border-royal-gold/50 transition-colors">
+            <img src="icon.jpg" alt="Royal Mabati" class="w-8 h-8 object-contain" />
+          </div>
+          <div class="flex flex-col leading-tight">
+            <span class="font-display font-bold text-lg sm:text-xl tracking-tight uppercase text-white">${escapeHtml(BUSINESS_NAME)}</span>
+            <span class="text-[10px] sm:text-[11px] text-royal-gold font-medium tracking-wider uppercase">${escapeHtml(BUSINESS_TAGLINE)}</span>
+          </div>
+        </a>
+        <div class="flex-1 hidden sm:flex items-center bg-white/10 backdrop-blur-md rounded-full px-4 py-2.5 gap-2 border border-white/10 focus-within:border-royal-gold/60 focus-within:bg-white/15 transition-all">
+          ${ICONS.search(17, "text-gray-400 shrink-0")}
           <input id="search-desktop" value="${escapeHtml(state.search)}" placeholder="Search mabati, cement, bars..."
-                 class="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full" />
+                 class="bg-transparent outline-none text-sm placeholder:text-gray-400 w-full text-white" />
           ${clearBtnDesktop}
         </div>
-        <button id="open-cart-btn" class="relative flex items-center gap-2 bg-[#e8590c] hover:bg-[#d14e08] active:scale-95 transition-all rounded-full px-4 py-2.5 font-semibold text-sm shrink-0">
-          ${ICONS.cart(18)}
-          <span class="hidden sm:inline">Cart</span>
-          ${badge}
-        </button>
+        <div class="flex items-center gap-2">
+          <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="hidden md:flex items-center gap-2 text-white/80 hover:text-royal-gold transition-colors text-sm font-medium">
+            ${ICONS.phone(16)}
+            <span class="text-xs">+${WHATSAPP_NUMBER}</span>
+          </a>
+          <button id="open-cart-btn" class="relative flex items-center gap-2 bg-gradient-to-r from-royal-red to-royal-darkred hover:shadow-lg hover:shadow-royal-red/30 active:scale-95 transition-all rounded-full px-4 py-2.5 font-semibold text-sm text-white">
+            ${ICONS.cart(18)}
+            <span class="hidden sm:inline font-display">Cart</span>
+            ${badge}
+          </button>
+        </div>
       </div>
       <div class="sm:hidden px-4 pb-3">
-        <div class="flex items-center bg-[#2a2f34] rounded-full px-4 py-2.5 gap-2 border border-white/5">
-          ${ICONS.search(16, "text-[#9aa4ac] shrink-0")}
-          <input id="search-mobile" value="${escapeHtml(state.search)}" placeholder="Search mabati, cement, bars..."
-                 class="bg-transparent outline-none text-sm placeholder:text-[#7a838a] w-full text-[#f2efe9]" />
+        <div class="flex items-center bg-white/10 backdrop-blur-md rounded-full px-4 py-2.5 gap-2 border border-white/10">
+          ${ICONS.search(16, "text-gray-400 shrink-0")}
+          <input id="search-mobile" value="${escapeHtml(state.search)}" placeholder="Search products..."
+                 class="bg-transparent outline-none text-sm placeholder:text-gray-400 w-full text-white" />
           ${clearBtnMobile}
         </div>
       </div>
     </header>`;
+}
+
+function renderHero() {
+  const featuredProducts = PRODUCTS.filter(p => p.featured).slice(0, 3);
+  return `
+    <section class="relative min-h-[85vh] flex items-center overflow-hidden hero-gradient">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-royal-red/10 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-royal-blue/10 rounded-full blur-3xl animate-float" style="animation-delay: 2s;"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-royal-gold/5 rounded-full blur-3xl animate-pulse-slow"></div>
+        <svg class="absolute bottom-0 left-0 right-0 text-white/5" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none">
+          <path d="M0 120L720 20L1440 120V120H0Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 py-32 grid lg:grid-cols-2 gap-12 items-center">
+        <div class="animate-slide-up">
+          <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-1.5 mb-6 border border-white/10">
+            ${ICONS.crown(14, "text-royal-gold")}
+            <span class="text-royal-gold text-xs font-bold uppercase tracking-[0.2em]">Kenya's Trusted Roofing Partner</span>
+          </div>
+          <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-white leading-[1.1] mb-6">
+            Crown Your Home With <span class="text-gradient">Royal Quality</span>
+          </h1>
+          <p class="text-gray-300 text-lg mb-8 max-w-lg leading-relaxed">
+            Premium mabati, cement, and steel delivered straight to your site. From heritage box profiles to elegant steel tiles — we roof Kenya with pride.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <button onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})" 
+              class="bg-gradient-to-r from-royal-red to-royal-darkred text-white px-8 py-4 rounded-full font-display font-bold uppercase tracking-wider text-sm hover:shadow-xl hover:shadow-royal-red/30 active:scale-95 transition-all flex items-center gap-2">
+              Shop Now ${ICONS.arrowRight(16)}
+            </button>
+            <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank"
+              class="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-display font-bold uppercase tracking-wider text-sm hover:bg-white/20 active:scale-95 transition-all flex items-center gap-2">
+              ${ICONS.chat(18)} Get Quote
+            </a>
+          </div>
+          <div class="flex items-center gap-6 mt-10 text-white/60 text-sm">
+            <div class="flex items-center gap-2">
+              ${ICONS.check(16, "text-royal-gold")}
+              <span>Countrywide Delivery</span>
+            </div>
+            <div class="flex items-center gap-2">
+              ${ICONS.check(16, "text-royal-gold")}
+              <span>Genuine Products</span>
+            </div>
+            <div class="flex items-center gap-2">
+              ${ICONS.check(16, "text-royal-gold")}
+              <span>Best Prices</span>
+            </div>
+          </div>
+        </div>
+        <div class="hidden lg:block relative">
+          <div class="relative z-10 grid grid-cols-2 gap-4 animate-fade-in">
+            ${featuredProducts.map((p, i) => {
+              const cs = state.cardState[p.id];
+              const imgSrc = getProductImage(p, cs);
+              return `
+                <div class="${i === 0 ? 'col-span-2' : ''} rounded-2xl overflow-hidden border border-white/10 shadow-2xl group cursor-pointer" 
+                     onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+                  <div class="relative ${i === 0 ? 'h-64' : 'h-40'} overflow-hidden">
+                    <img src="${imgSrc}" alt="${escapeHtml(p.name)}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 right-3">
+                      <div class="text-white font-display font-bold text-sm">${escapeHtml(p.name)}</div>
+                      <div class="text-royal-gold text-xs font-semibold">From ${kes(p.gauges ? p.gauges[0].price : p.price)}</div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+          <div class="absolute -inset-4 border border-royal-gold/20 rounded-3xl animate-pulse-slow"></div>
+        </div>
+      </div>
+    </section>`;
 }
 
 function renderFilterPills() {
@@ -345,85 +520,82 @@ function renderFilterPills() {
   const pills = all.map((c) => {
     const isActive = state.activeCategory === c.id;
     const cls = isActive
-      ? "bg-[#1c1f22] text-white border-[#1c1f22]"
-      : "bg-white text-[#4a5560] border-[#d8d3c8] hover:border-[#1c1f22]";
-    return `<button data-cat="${c.id}" class="filter-pill shrink-0 px-4 py-2 rounded-full text-sm font-semibold font-['Oswald'] tracking-wide uppercase transition-all border ${cls}">${escapeHtml(c.label)}</button>`;
+      ? "category-pill active"
+      : "category-pill bg-white text-gray-600 border border-gray-200 hover:border-royal-red hover:text-royal-red shadow-sm";
+    const catIcon = c.id === 'mabati' ? ICONS.roof(14, "mr-1.5") : c.id === 'cement' ? ICONS.shield(14, "mr-1.5") : c.id === 'steel' ? ICONS.zap(14, "mr-1.5") : '';
+    return `<button data-cat="${c.id}" class="${cls} shrink-0 px-5 py-2.5 rounded-full text-sm font-bold font-display tracking-wide uppercase flex items-center">${catIcon}${escapeHtml(c.label)}</button>`;
   }).join("");
   return `
-    <div class="max-w-7xl mx-auto px-4 pt-5 pb-1">
-      <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">${pills}</div>
+    <div class="max-w-7xl mx-auto px-4 pt-8 pb-2">
+      <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2">${pills}</div>
     </div>`;
 }
 
-function renderProductCard(product) {
+function renderProductCard(product, index) {
   const cs = state.cardState[product.id];
   const hasGauges = !!product.gauges;
   const unitPrice = hasGauges ? product.gauges[cs.gaugeIdx].price : product.price;
   const priceRange = hasGauges ? [product.gauges[0].price, product.gauges[product.gauges.length - 1].price] : null;
-
-  let imgSrc = PRODUCT_IMAGES[product.icon];
-  if (product.photos) {
-    const gaugeLabel = hasGauges ? product.gauges[cs.gaugeIdx].label : null;
-    const color = hasGauges ? product.colors[cs.colorIdx] : null;
-    const key = `${gaugeLabel}|${color}`;
-    imgSrc = product.photos[key] || product.photos.default || imgSrc;
-  }
+  const imgSrc = getProductImage(product, cs);
 
   const gaugeColorBlock = hasGauges ? `
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2 gap-3">
       <div>
-        <label class="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Gauge</label>
-        <select data-product="${product.id}" data-role="gauge" class="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1 block">Gauge</label>
+        <select data-product="${product.id}" data-role="gauge" class="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:outline-none focus:border-royal-red focus:ring-2 focus:ring-royal-red/10 transition-all cursor-pointer">
           ${product.gauges.map((g, i) => `<option value="${i}" ${i === cs.gaugeIdx ? "selected" : ""}>${escapeHtml(g.label)}</option>`).join("")}
         </select>
       </div>
       <div>
-        <label class="text-[10.5px] font-bold uppercase tracking-wide text-[#9aa4ac]">Color</label>
-        <select data-product="${product.id}" data-role="color" class="w-full mt-1 text-sm border border-[#d8d3c8] rounded-lg px-2 py-1.5 bg-[#faf9f6] focus:outline-none focus:border-[#e8590c]">
+        <label class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1 block">Color</label>
+        <select data-product="${product.id}" data-role="color" class="w-full text-sm border border-gray-200 rounded-xl px-3 py-2 bg-gray-50 focus:outline-none focus:border-royal-red focus:ring-2 focus:ring-royal-red/10 transition-all cursor-pointer">
           ${product.colors.map((c, i) => `<option value="${i}" ${i === cs.colorIdx ? "selected" : ""}>${escapeHtml(c)}</option>`).join("")}
         </select>
       </div>
     </div>` : "";
 
-  const rangeLine = priceRange ? `<div class="text-[11px] text-[#9aa4ac]">Range: ${kes(priceRange[0])} – ${kes(priceRange[1])}</div>` : "";
+  const rangeLine = priceRange ? `<div class="text-[11px] text-gray-400 font-medium">Range: ${kes(priceRange[0])} – ${kes(priceRange[1])}</div>` : "";
 
   const addBtnCls = cs.justAdded
-    ? "bg-[#1c1f22] text-white"
-    : "bg-[#e8590c] hover:bg-[#d14e08] text-white active:scale-[0.98]";
+    ? "bg-royal-charcoal text-white"
+    : "bg-gradient-to-r from-royal-red to-royal-darkred text-white hover:shadow-lg hover:shadow-royal-red/25";
   const addBtnContent = cs.justAdded
-    ? `${ICONS.check(16)} Added to cart`
-    : `Add to Cart · ${kes(unitPrice * Math.max(1, cs.qty))}`;
+    ? `${ICONS.check(16)} Added`
+    : `<span>Add to Cart</span><span class="opacity-90">· ${kes(unitPrice * Math.max(1, cs.qty))}</span>`;
+
+  const featuredBadge = product.featured ? `<div class="absolute top-3 left-3 bg-gradient-to-r from-royal-gold to-yellow-500 text-royal-charcoal text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full z-10 shadow-lg">Best Seller</div>` : "";
 
   return `
-    <div class="bg-white rounded-2xl overflow-hidden border border-[#e5e0d5] shadow-sm hover:shadow-md transition-shadow flex flex-col">
-      <div class="h-36 w-full overflow-hidden">
-        <img src="${imgSrc}" alt="${escapeHtml(product.name)}" loading="lazy" class="w-full h-full object-cover" />
+    <div class="product-card bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex flex-col scroll-reveal" style="transition-delay: ${index * 50}ms">
+      <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+        ${featuredBadge}
+        <img src="${imgSrc}" alt="${escapeHtml(product.name)}" loading="lazy" class="w-full h-full object-cover image-zoom" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </div>
-      ${ridgeStrip(6)}
-      <div class="p-4 flex flex-col gap-3 flex-1">
+      <div class="h-1 w-full ridge-pattern"></div>
+      <div class="p-5 flex flex-col gap-3 flex-1">
         <div>
-          <h3 class="font-['Oswald'] font-semibold text-[15px] leading-snug text-[#1c1f22]">${escapeHtml(product.name)}</h3>
-          <p class="text-[12.5px] text-[#767f86] mt-0.5 line-clamp-2">${escapeHtml(product.description)}</p>
+          <div class="flex items-start justify-between gap-2">
+            <h3 class="font-display font-bold text-[15px] leading-snug text-royal-charcoal">${escapeHtml(product.name)}</h3>
+          </div>
+          <p class="text-[12.5px] text-gray-500 mt-1.5 line-clamp-2 leading-relaxed">${escapeHtml(product.description)}</p>
         </div>
-
         ${gaugeColorBlock}
-
-        <div class="flex items-end justify-between mt-auto pt-1">
+        <div class="flex items-end justify-between mt-auto pt-2">
           <div>
-            <div class="font-['Oswald'] font-bold text-lg text-[#1c1f22]">
-              ${kes(unitPrice)}<span class="text-[12px] font-normal text-[#9aa4ac]"> /${product.unit}</span>
+            <div class="font-display font-bold text-xl text-royal-charcoal">
+              ${kes(unitPrice)}<span class="text-[12px] font-normal text-gray-400"> /${product.unit}</span>
             </div>
             ${rangeLine}
           </div>
-          <div class="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
-            <button data-product="${product.id}" data-role="qty-minus" class="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Decrease quantity">${ICONS.minus(14)}</button>
-            <input type="number" min="1" value="${cs.qty}" data-product="${product.id}" data-role="qty-input" class="w-12 text-center text-sm outline-none no-spinner" />
-            <button data-product="${product.id}" data-role="qty-plus" class="px-2.5 py-1.5 text-[#4a5560] hover:bg-[#f2efe9]" aria-label="Increase quantity">${ICONS.plus(14)}</button>
+          <div class="flex items-center border border-gray-200 rounded-full overflow-hidden bg-gray-50">
+            <button data-product="${product.id}" data-role="qty-minus" class="px-3 py-2 text-gray-500 hover:text-royal-red hover:bg-white transition-colors" aria-label="Decrease quantity">${ICONS.minus(13)}</button>
+            <input type="number" min="1" value="${cs.qty}" data-product="${product.id}" data-role="qty-input" class="w-10 text-center text-sm outline-none no-spinner bg-transparent font-semibold" />
+            <button data-product="${product.id}" data-role="qty-plus" class="px-3 py-2 text-gray-500 hover:text-royal-red hover:bg-white transition-colors" aria-label="Increase quantity">${ICONS.plus(13)}</button>
           </div>
         </div>
-
         <button data-product="${product.id}" data-role="add-to-cart"
-          class="w-full mt-1 rounded-xl py-2.5 font-['Oswald'] font-semibold text-sm uppercase tracking-wide transition-all flex items-center justify-center gap-2 ${addBtnCls}">
+          class="add-btn w-full mt-1 rounded-xl py-3 font-display font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${addBtnCls}">
           ${addBtnContent}
         </button>
       </div>
@@ -440,9 +612,12 @@ function renderMain() {
 
   if (filtered.length === 0) {
     return `
-      <main class="max-w-7xl mx-auto px-4 pb-24">
-        <div class="text-center py-24 text-[#9aa4ac]">
-          <p class="font-['Oswald'] text-lg">No products match your search.</p>
+      <main id="products-section" class="max-w-7xl mx-auto px-4 pb-24">
+        <div class="text-center py-24 text-gray-400">
+          <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+            ${ICONS.search(32, "text-gray-300")}
+          </div>
+          <p class="font-display text-lg text-gray-600">No products match your search.</p>
           <p class="text-sm mt-1">Try a different keyword or filter.</p>
         </div>
       </main>`;
@@ -455,27 +630,33 @@ function renderMain() {
   const sections = CATEGORIES.map((cat) => {
     const items = byCat[cat.id];
     if (!items || items.length === 0) return "";
+    const catIcon = cat.id === 'mabati' ? ICONS.roof(20, "text-royal-red") : cat.id === 'cement' ? ICONS.shield(20, "text-royal-blue") : ICONS.zap(20, "text-royal-gold");
     return `
-      <section class="mt-8">
-        <div class="flex items-center gap-3 mb-4">
-          <h2 class="font-['Oswald'] font-bold text-xl sm:text-2xl text-[#1c1f22] uppercase tracking-tight">${escapeHtml(cat.label)}</h2>
-          <div class="h-[3px] flex-1 rounded-full bg-[#e5e0d5]"></div>
+      <section class="mt-10 scroll-reveal">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-12 h-12 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center">
+            ${catIcon}
+          </div>
+          <div>
+            <h2 class="font-display font-bold text-2xl text-royal-charcoal uppercase tracking-tight">${escapeHtml(cat.label)}</h2>
+            <div class="h-1 w-16 bg-gradient-to-r from-royal-red to-royal-gold rounded-full mt-1"></div>
+          </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          ${items.map((p) => renderProductCard(p)).join("")}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          ${items.map((p, i) => renderProductCard(p, i)).join("")}
         </div>
       </section>`;
   }).join("");
 
-  return `<main class="max-w-7xl mx-auto px-4 pb-24">${sections}</main>`;
+  return `<main id="products-section" class="max-w-7xl mx-auto px-4 pb-24 pt-4">${sections}</main>`;
 }
 
 function renderMobileCartButton() {
   const count = cartCount();
   if (count === 0) return "";
   return `
-    <button id="mobile-cart-btn" class="sm:hidden fixed bottom-5 right-5 z-30 bg-[#e8590c] text-white rounded-full shadow-lg shadow-black/30 px-5 py-3.5 flex items-center gap-2 font-['Oswald'] font-semibold">
-      ${ICONS.cart(18)}${kes(cartTotal())}
+    <button id="mobile-cart-btn" class="sm:hidden fixed bottom-6 right-6 z-30 bg-gradient-to-r from-royal-red to-royal-darkred text-white rounded-full shadow-xl shadow-royal-red/30 px-6 py-4 flex items-center gap-2 font-display font-bold animate-slide-up">
+      ${ICONS.cart(18)}<span>${kes(cartTotal())}</span>
     </button>`;
 }
 
@@ -485,52 +666,67 @@ function renderCartDrawer() {
   const total = cartTotal();
 
   const emptyState = items.length === 0 ? `
-    <div class="text-center text-[#9aa4ac] mt-16 flex flex-col items-center gap-2">
-      ${ICONS.cart(36, "", ).replace('stroke-width="2"', 'stroke-width="1.2"')}
-      <p class="text-sm">Your cart is empty. Add some materials to get a quote.</p>
+    <div class="text-center text-gray-400 mt-20 flex flex-col items-center gap-3">
+      <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-2">
+        ${ICONS.cart(32, "text-gray-300")}
+      </div>
+      <p class="font-display text-gray-500 font-semibold">Your cart is empty</p>
+      <p class="text-sm max-w-xs">Add some roofing materials to get a personalized quote via WhatsApp.</p>
+      <button onclick="state.cartOpen=false;render();document.getElementById('products-section').scrollIntoView({behavior:'smooth'});" 
+        class="mt-4 text-royal-red font-semibold text-sm hover:underline flex items-center gap-1">
+        Start Shopping ${ICONS.arrowRight(14)}
+      </button>
     </div>` : "";
 
   const itemsHtml = items.map((it) => `
-    <div class="bg-white rounded-xl border border-[#e5e0d5] p-3 flex gap-3">
+    <div class="bg-white rounded-2xl border border-gray-100 p-4 flex gap-4 shadow-sm">
       <div class="flex-1 min-w-0">
-        <div class="font-['Oswald'] font-semibold text-[13.5px] text-[#1c1f22] leading-snug">${escapeHtml(it.name)}</div>
-        ${(it.gauge || it.color) ? `<div class="text-[11.5px] text-[#767f86] mt-0.5">${escapeHtml([it.gauge, it.color].filter(Boolean).join(" · "))}</div>` : ""}
-        <div class="flex items-center gap-2 mt-2">
-          <div class="flex items-center border border-[#d8d3c8] rounded-full overflow-hidden">
-            <button data-cart-id="${it.cartId}" data-role="cart-qty-minus" class="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]">${ICONS.minus(12)}</button>
-            <span class="w-8 text-center text-xs font-medium">${it.qty}</span>
-            <button data-cart-id="${it.cartId}" data-role="cart-qty-plus" class="px-2 py-1 text-[#4a5560] hover:bg-[#f2efe9]">${ICONS.plus(12)}</button>
+        <div class="font-display font-bold text-[14px] text-royal-charcoal leading-snug">${escapeHtml(it.name)}</div>
+        ${(it.gauge || it.color) ? `<div class="text-[11.5px] text-gray-500 mt-1 font-medium">${escapeHtml([it.gauge, it.color].filter(Boolean).join(" · "))}</div>` : ""}
+        <div class="flex items-center gap-3 mt-3">
+          <div class="flex items-center border border-gray-200 rounded-full overflow-hidden bg-gray-50">
+            <button data-cart-id="${it.cartId}" data-role="cart-qty-minus" class="px-2.5 py-1.5 text-gray-500 hover:text-royal-red transition-colors">${ICONS.minus(12)}</button>
+            <span class="w-8 text-center text-xs font-bold">${it.qty}</span>
+            <button data-cart-id="${it.cartId}" data-role="cart-qty-plus" class="px-2.5 py-1.5 text-gray-500 hover:text-royal-red transition-colors">${ICONS.plus(12)}</button>
           </div>
-          <span class="text-[11px] text-[#9aa4ac]">${it.unit}s</span>
+          <span class="text-[11px] text-gray-400 font-medium">${it.unit}s</span>
         </div>
       </div>
       <div class="flex flex-col items-end justify-between shrink-0">
-        <button data-cart-id="${it.cartId}" data-role="cart-remove" class="text-[#c4453a] hover:text-[#9c332a]" aria-label="Remove item">${ICONS.trash(16)}</button>
-        <span class="font-['Oswald'] font-semibold text-sm text-[#1c1f22]">${kes(it.qty * it.unitPrice)}</span>
+        <button data-cart-id="${it.cartId}" data-role="cart-remove" class="text-gray-400 hover:text-red-500 transition-colors p-1" aria-label="Remove item">${ICONS.trash(16)}</button>
+        <span class="font-display font-bold text-sm text-royal-charcoal">${kes(it.qty * it.unitPrice)}</span>
       </div>
     </div>`).join("");
 
   const footer = items.length > 0 ? `
-    <div class="border-t border-[#e5e0d5] bg-white px-5 py-4">
-      <div class="flex items-center justify-between mb-3">
-        <span class="font-['Oswald'] uppercase tracking-wide text-sm text-[#4a5560]">Total</span>
-        <span class="font-['Oswald'] font-bold text-xl text-[#1c1f22]">${kes(total)}</span>
+    <div class="border-t border-gray-100 bg-white px-6 py-5">
+      <div class="flex items-center justify-between mb-4">
+        <span class="font-display uppercase tracking-widest text-sm text-gray-500 font-bold">Total</span>
+        <span class="font-display font-bold text-2xl text-royal-charcoal">${kes(total)}</span>
       </div>
-      <button id="checkout-btn" class="w-full bg-[#25D366] hover:bg-[#1fb857] active:scale-[0.98] transition-all text-white rounded-xl py-3 font-['Oswald'] font-semibold uppercase tracking-wide flex items-center justify-center gap-2">
-        ${ICONS.chat(19)} Checkout via WhatsApp
+      <button id="checkout-btn" class="whatsapp-btn w-full text-white rounded-xl py-4 font-display font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-sm">
+        ${ICONS.chat(20)} Checkout via WhatsApp
       </button>
-      <p class="text-[11px] text-center text-[#9aa4ac] mt-2">Opens WhatsApp with your itemized order to confirm with our team.</p>
+      <p class="text-[11px] text-center text-gray-400 mt-3">Opens WhatsApp with your itemized order.</p>
     </div>` : "";
 
   return `
-    <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-40 transition-opacity ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}"></div>
-    <div class="fixed top-0 right-0 h-full w-full sm:w-[420px] bg-[#faf9f6] z-50 shadow-2xl flex flex-col transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}">
-      <div class="bg-[#1c1f22] text-white px-5 py-4 flex items-center justify-between">
-        <h2 class="font-['Oswald'] font-bold uppercase tracking-wide flex items-center gap-2">${ICONS.cart(19)} Your Cart</h2>
-        <button id="close-cart-btn" aria-label="Close cart">${ICONS.x(20)}</button>
+    <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity duration-300 ${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}"></div>
+    <div class="cart-drawer fixed top-0 right-0 h-full w-full sm:w-[440px] bg-gray-50 z-50 shadow-2xl flex flex-col ${open ? "translate-x-0" : "translate-x-full"}">
+      <div class="bg-royal-charcoal text-white px-6 py-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+            <img src="icon.jpg" alt="" class="w-7 h-7 object-contain" />
+          </div>
+          <div>
+            <h2 class="font-display font-bold uppercase tracking-wide text-sm">Your Cart</h2>
+            <p class="text-[10px] text-gray-400">${items.length} item${items.length !== 1 ? 's' : ''}</p>
+          </div>
+        </div>
+        <button id="close-cart-btn" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors" aria-label="Close cart">${ICONS.x(18)}</button>
       </div>
-      ${ridgeStrip(5)}
-      <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3">
+      <div class="h-1 w-full ridge-pattern"></div>
+      <div class="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-3">
         ${emptyState}
         ${itemsHtml}
       </div>
@@ -538,29 +734,91 @@ function renderCartDrawer() {
     </div>`;
 }
 
+function renderFeatures() {
+  const features = [
+    { icon: ICONS.truck(24, "text-royal-red"), title: "Countrywide Delivery", desc: "We deliver to every corner of Kenya, straight to your construction site." },
+    { icon: ICONS.shield(24, "text-royal-blue"), title: "Quality Certified", desc: "All products meet KEBS standards and come with manufacturer warranties." },
+    { icon: ICONS.zap(24, "text-royal-gold"), title: "Best Prices", desc: "Competitive wholesale pricing on all roofing sheets, cement, and steel bars." },
+    { icon: ICONS.roof(24, "text-royal-red"), title: "Roofing Experts", desc: "15+ years experience in roofing solutions across residential & commercial projects." },
+  ];
+  return `
+    <section class="bg-white border-y border-gray-100">
+      <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          ${features.map((f, i) => `
+            <div class="flex items-start gap-4 scroll-reveal" style="transition-delay: ${i * 100}ms">
+              <div class="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center shrink-0">
+                ${f.icon}
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-sm text-royal-charcoal mb-1">${f.title}</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">${f.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>`;
+}
+
 function renderFooter() {
   return `
-    <footer class="bg-[#1c1f22] text-[#9aa4ac] text-center py-6 text-xs">
-      ${ridgeStrip(6, "mb-6")}
-      © ${new Date().getFullYear()} ${escapeHtml(BUSINESS_NAME)}. Prices are indicative and confirmed on WhatsApp before delivery.
+    <footer class="bg-royal-charcoal text-gray-400">
+      <div class="h-1 w-full ridge-pattern"></div>
+      <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center overflow-hidden border border-white/10">
+                <img src="icon.jpg" alt="Royal Mabati" class="w-8 h-8 object-contain" />
+              </div>
+              <div>
+                <div class="font-display font-bold text-white uppercase tracking-tight">${escapeHtml(BUSINESS_NAME)}</div>
+                <div class="text-[10px] text-royal-gold uppercase tracking-wider">${escapeHtml(BUSINESS_TAGLINE)}</div>
+              </div>
+            </div>
+            <p class="text-xs leading-relaxed max-w-xs">Kenya's premier roofing materials supplier. Quality mabati, cement, and steel delivered with the excellence your project deserves.</p>
+          </div>
+          <div>
+            <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Quick Links</h4>
+            <div class="flex flex-col gap-2 text-xs">
+              <a href="#products-section" class="hover:text-royal-gold transition-colors">Shop Products</a>
+              <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="hover:text-royal-gold transition-colors">Get a Quote</a>
+              <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" class="hover:text-royal-gold transition-colors">Back to Top</a>
+            </div>
+          </div>
+          <div>
+            <h4 class="font-display font-bold text-white text-sm uppercase tracking-wider mb-4">Contact Us</h4>
+            <div class="flex flex-col gap-3 text-xs">
+              <a href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" class="flex items-center gap-2 hover:text-royal-gold transition-colors">
+                ${ICONS.chat(16, "text-royal-gold")} WhatsApp: +${WHATSAPP_NUMBER}
+              </a>
+              <div class="flex items-center gap-2">
+                ${ICONS.truck(16, "text-royal-gold")} Countrywide Delivery Available
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-white/10 pt-6 text-center text-[11px]">
+          © ${new Date().getFullYear()} ${escapeHtml(BUSINESS_NAME)}. Prices are indicative and confirmed on WhatsApp before delivery.
+        </div>
+      </div>
     </footer>`;
 }
 
-/* ============================================================
-   FULL RENDER
-   ============================================================ */
 function render() {
   const root = document.getElementById("root");
-  // preserve focus + caret position across re-renders for the active input
   const active = document.activeElement;
   const activeId = active && active.id;
   const selStart = active && "selectionStart" in active ? active.selectionStart : null;
   const selEnd = active && "selectionEnd" in active ? active.selectionEnd : null;
 
   root.innerHTML = `
-    <div class="min-h-screen bg-[#f2efe9]">
+    <div class="min-h-screen bg-royal-light">
       ${renderAnnouncementBar()}
       ${renderHeader()}
+      ${renderHero()}
+      ${renderFeatures()}
       ${renderFilterPills()}
       ${renderMain()}
       ${renderMobileCartButton()}
@@ -569,6 +827,7 @@ function render() {
     </div>`;
 
   attachHandlers();
+  setupScrollObserver();
 
   if (activeId) {
     const el = document.getElementById(activeId);
@@ -581,11 +840,7 @@ function render() {
   }
 }
 
-/* ============================================================
-   EVENT WIRING
-   ============================================================ */
 function attachHandlers() {
-  // search inputs
   const searchDesktop = document.getElementById("search-desktop");
   const searchMobile = document.getElementById("search-mobile");
   if (searchDesktop) searchDesktop.addEventListener("input", (e) => { state.search = e.target.value; render(); });
@@ -595,7 +850,6 @@ function attachHandlers() {
   if (clearDesktop) clearDesktop.addEventListener("click", () => { state.search = ""; render(); });
   if (clearMobile) clearMobile.addEventListener("click", () => { state.search = ""; render(); });
 
-  // cart open/close
   const openCartBtn = document.getElementById("open-cart-btn");
   const closeCartBtn = document.getElementById("close-cart-btn");
   const cartOverlay = document.getElementById("cart-overlay");
@@ -605,12 +859,10 @@ function attachHandlers() {
   if (cartOverlay) cartOverlay.addEventListener("click", () => { state.cartOpen = false; render(); });
   if (mobileCartBtn) mobileCartBtn.addEventListener("click", () => { state.cartOpen = true; render(); });
 
-  // filter pills
   document.querySelectorAll(".filter-pill").forEach((btn) => {
     btn.addEventListener("click", () => { state.activeCategory = btn.dataset.cat; render(); });
   });
 
-  // product card controls
   document.querySelectorAll('select[data-role="gauge"]').forEach((sel) => {
     sel.addEventListener("change", (e) => {
       state.cardState[sel.dataset.product].gaugeIdx = Number(e.target.value);
@@ -666,7 +918,6 @@ function attachHandlers() {
     });
   });
 
-  // cart drawer item controls
   document.querySelectorAll('[data-role="cart-qty-minus"]').forEach((btn) => {
     btn.addEventListener("click", () => {
       const it = state.cart.find((i) => i.cartId === btn.dataset.cartId);
@@ -687,6 +938,46 @@ function attachHandlers() {
 
   const checkoutBtn = document.getElementById("checkout-btn");
   if (checkoutBtn) checkoutBtn.addEventListener("click", handleCheckout);
+}
+
+function setupScrollObserver() {
+  const header = document.getElementById("main-header");
+  if (!header) return;
+
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      state.scrolled = !entry.isIntersecting;
+      if (state.scrolled) {
+        header.classList.remove("bg-transparent");
+        header.classList.add("glass-dark", "shadow-xl", "shadow-black/20");
+      } else {
+        header.classList.add("bg-transparent");
+        header.classList.remove("glass-dark", "shadow-xl", "shadow-black/20");
+      }
+    },
+    { threshold: 0, rootMargin: "-80px 0px 0px 0px" }
+  );
+
+  const sentinel = document.createElement("div");
+  sentinel.style.position = "absolute";
+  sentinel.style.top = "0";
+  sentinel.style.height = "1px";
+  document.body.prepend(sentinel);
+  observer.observe(sentinel);
+
+  // Scroll reveal observer
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+  );
+
+  document.querySelectorAll(".scroll-reveal").forEach((el) => revealObserver.observe(el));
 }
 
 render();
